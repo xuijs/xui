@@ -3,6 +3,11 @@ require 'YAML'
 # TODO: print out build command line if no args provided.
 # usage: ./build profile=whatever --minify 
 
+# man I sure love Windows! --alunny
+is_windows = Dir.getwd[0,1] != "/"
+echo_dot = is_windows ? "echo." : "echo"
+mkdir = is_windows ? "mkdir" : "mkdir -p"
+
 profile_matcher = /^profile=(.*)$/
 profile_path = "util/profiles/"
 # defaults
@@ -16,13 +21,13 @@ end
 hash = YAML.load_file "#{ profile_path }#{ profile }.js"
 
 # clear previous file
-`mkdir lib`
-`echo > #{ hash["out"] }`
+`#{ mkdir } lib`
+`#{ echo_dot } > #{ hash["out"] }`
 
 hash["include"].each do |include|
   # a bit of overhead since not all files end in a newline
   `cat #{ include }.js >> #{ hash["out"] }`
-  `echo. >> #{ hash["out"] }`
+  `#{ echo_dot } >> #{ hash["out"] }`
 end
 
 if minify
