@@ -9,7 +9,7 @@
  * A good old fashioned event handling system.
  * 
  */
-xui.events = {}, cache = {};
+xui.events = {}; var cache = {};
 xui.extend({
 	
 	
@@ -138,7 +138,7 @@ xui.extend({
  */
 
 "click load submit touchstart touchmove touchend touchcancel gesturestart gesturechange gestureend orientationchange".split(' ').forEach(function (event) {
-  xui.fn[event] = function (fn) { return fn ? this.on(event, fn) : this.fire(event); };
+  xui.fn[event] = function(action) { return function (fn) { return fn ? this.on(action, fn) : this.fire(action); }; }(event);
 });
 
 // patched orientation support - Andriod 1 doesn't have native onorientationchange events

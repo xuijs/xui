@@ -114,7 +114,7 @@ xui.extend({
 // --
 });
 "inner outer top bottom remove before after".split(' ').forEach(function (method) {
-  xui.fn[method] = function (html) { return this.html(method, html); };
+  xui.fn[method] = function(where) { return function (html) { return this.html(where, html); }; }(method);
 });
 // private method for finding a dom element
 function getTag(el) {
