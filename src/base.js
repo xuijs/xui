@@ -59,7 +59,7 @@ xui.fn = xui.prototype = {
             context = context || document;
             // fast matching for pure ID selectors and simple element based selectors
             if (typeof q == string) {
-              if (simpleExpr.test(q)) {
+              if (simpleExpr.test(q) && context.getElementById && context.getElementsByTagName) {
                   ele = idExpr.test(q) ? [context.getElementById(q.substr(1))] : context.getElementsByTagName(q);
                   // nuke failed selectors
                   if (ele[0] == null) { 
