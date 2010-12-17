@@ -6,6 +6,7 @@ require 'YAML'
 # man I sure love Windows! --alunny
 is_windows = Dir.getwd[0,1] != "/"
 echo_dot = is_windows ? "echo." : "echo"
+cat = is_windows ? "type" : "cat"
 mkdir = is_windows ? "mkdir" : "mkdir -p"
 
 profile_matcher = /^profile=(.*)$/
@@ -26,7 +27,8 @@ hash = YAML.load_file "#{ profile_path }#{ profile }.js"
 
 hash["include"].each do |include|
   # a bit of overhead since not all files end in a newline
-  `cat #{ include }.js >> #{ hash["out"] }`
+  include = is_windows ? include.gsub("/","\\") : include
+  `#{ cat } #{ include }.js >> #{ hash["out"] }`
   `#{ echo_dot } >> #{ hash["out"] }`
 end
 
