@@ -1,14 +1,9 @@
 XUI
 ===
 
-A lightweight, dead simple, microtiny, super modular JavaScript framework for building mobile web applications.
+A lightweight, dead simple, microtiny, super modular JavaScript framework for building mobile web applications. Its true: the minified code is _super tiny_. You can find more information, downloads and documentation at http://xuijs.com (be warned: out of date!) ---if you want to build your own custom XUI or help contribute: please read on! The best documentation is in the source and the tests.
 
-
-### XUI Application Authors and Hackers
-
-Its true: the minified code is _super tiny_. You can find more information, downloads and documentation at http://xuijs.com (be warned: out of date!) ---if you want to build your own custom XUI or help contribute: please read on! The best documentation is in the source and the tests.
-
-### XUI Contributors and Hackers
+### Building XUI
 
 To get the full source you need to use Git. _git clone_ the repo (as per usual) and then pull in the dependencies via _git submodule init_ and _git submodule update_. To build xui, run _build_. There are other tasks for code minification or building particular versions of XUI, for specific platforms:
     _build profile=bb_ - Builds a version of XUI for BlackBerries (uses Sizzle as the selector engine).
