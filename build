@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 require 'YAML'
+require 'fileutils'
 # TODO: print out build command line if no args provided.
 # usage: ./build profile=whatever --minify 
 
@@ -13,9 +14,11 @@ profile_path = "util/profiles/"
 # defaults
 profile = "core"
 minify = false
+docs = false
 
 $*.each do |arg|
   minify = true if arg == "--minify"
+  docs = true if arg == "--doc"
   profile = arg.match(profile_matcher)[1] if arg.match(profile_matcher)
 end
 hash = YAML.load_file "#{ profile_path }#{ profile }.js"
@@ -33,4 +36,18 @@ end
 if minify
   `java -jar util/compiler.jar --js=#{ hash["out"] } \
   --js_output_file=#{ hash["out"] }.min`
+end
+
+if docs
+  XUI_DIR = File.expand_path(File.dirname(__FILE__))
+  DOC_DIR = File.join(XUI_DIR, 'doc')
+  SRC_DIR = File.join(XUI_DIR, 'src')
+  
+  FileUtils.rm_r(DOC_DIR) if File.exists?(DOC_DIR)
+  FileUtils.mkdir(DOC_DIR)
+
+  FileUtils.cd(SRC_DIR) do
+    files = Dir['**/*.js'].reject{ |f| (f =~ /ie\//) != nil }.join(' ')
+    `jodoc --output ../doc #{files}`
+  end
 end
