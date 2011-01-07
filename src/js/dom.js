@@ -1,36 +1,55 @@
-xui.extend({
+/**
+DOM
+===
 
-    /**
-	 * For manipulating HTML markup in the DOM.
-	 *	
-	 * syntax:
-	 *
-	 * 		x$(window).html( location, html );
-	 *
-	 * or this method will accept just an html fragment with a default behavior of inner..
-	 *
-	 * 		x$(window).html( htmlFragment );
-	 * 
-	 * arguments:
-	 * 
-	 * - location:string can be one of inner, outer, top, bottom
-	 * - html:string any string of html markup or HTMLElement
-	 *
-	 * example:
-	 *
-	 *  	x$('#foo').html( 'inner',  '<strong>rock and roll</strong>' );
-	 *  	x$('#foo').html( 'outer',  '<p>lock and load</p>' );
-	 * 		x$('#foo').html( 'top',    '<div>bangers and mash</div>');
-	 *  	x$('#foo').html( 'bottom', '<em>mean and clean</em>');
-	 *  	x$('#foo').html( 'remove');	
-	 *  	x$('#foo').html( 'before', '<p>some warmup html</p>');
-	 *  	x$('#foo').html( 'after', '<p>more html!</p>');
-	 * 
-	 * or
-	 * 
-	 * 		x$('#foo').html('<p>sweet as honey</p>');
-	 * 
-	 */
+Set of methods used for manipulating the Document Object Model (DOM).
+
+*/
+xui.extend({
+/**
+html(location[, html])
+---
+
+For manipulating HTML markup in the DOM.
+
+__syntax__
+
+	x$(window).html( location, html );
+
+or this method will accept just an html fragment with a default behavior of inner.
+
+	x$(window).html( htmlFragment );
+
+or you can use shorthand syntax by using the location name argument (see below) as the function name.
+
+    x$(window).outer( htmlFragment );
+    x$(window).before( htmlFragment );
+ 
+__arguments__
+ 
+ - location:string can be one of: inner, outer, top, bottom, remove, before or after.
+ - html:string any string of html markup or an HTMLElement.
+
+__example__
+
+  	x$('#foo').html( 'inner',  '<strong>rock and roll</strong>' );
+  	x$('#foo').html( 'outer',  '<p>lock and load</p>' );
+	x$('#foo').html( 'top',    '<div>bangers and mash</div>');
+  	x$('#foo').html( 'bottom', '<em>mean and clean</em>');
+  	x$('#foo').html( 'remove');	
+  	x$('#foo').html( 'before', '<p>some warmup html</p>');
+  	x$('#foo').html( 'after', '<p>more html!</p>');
+ 
+or
+ 
+	x$('#foo').html('<p>sweet as honey</p>');
+    x$('#foo').outer('<p>free as a bird</p>');
+    x$('#foo').top('<b>top of the pops</b>');
+    x$('#foo').bottom('<span>bottom of the barrel</span>');
+    x$('#foo').before('<pre>first in line</pre>');
+    x$('#foo').after('<marquee>better late than never</marquee>');
+
+*/
     html: function(location, html) {
         clean(this);
 
@@ -162,7 +181,7 @@ function wrap(xhtml, tag) {
 }
 
 
-/**
+/*
 * Removes all erronious nodes from the DOM.
 * 
 */
