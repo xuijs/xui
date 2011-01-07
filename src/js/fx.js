@@ -33,9 +33,9 @@ xui.extend({
 	 *
 	 * example:
 	 *
-	 * 	x$('#box').tween({ left:100px, backgroundColor:'blue' });
-	 * 	x$('#box').tween({ left:100px, backgroundColor:'blue' }, function() { alert('done!'); });
-	 * 	x$('#box').tween([{ left:100px, backgroundColor:'green', duration:.2 }, { right:'100px' }]); 
+	 * 	x$('#box').tween({ left:'100px', backgroundColor:'blue' });
+	 * 	x$('#box').tween({ left:'100px', backgroundColor:'blue' }, function() { alert('done!'); });
+	 * 	x$('#box').tween([{ left:'100px', backgroundColor:'green', duration:.2 }, { right:'100px' }]); 
 	 * 
 	 */
 	// options: duration, after, easing
