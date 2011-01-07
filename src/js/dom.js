@@ -7,7 +7,7 @@ Set of methods used for manipulating the Document Object Model (DOM).
 */
 xui.extend({
 /**
-html( location [, html] )
+html
 ---
 
 For manipulating HTML in the DOM.
@@ -101,12 +101,14 @@ or
     },
 
 /**
-attr( attribute [, val] )
+attr
 ---
 
 For getting or setting attributes on elements.
 
 __syntax (and examples)__
+
+    x$(window).attr( attribute, value );
 
 To retrieve an attribute value, simply don't provide the optional second parameter:
 
