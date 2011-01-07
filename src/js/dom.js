@@ -1,14 +1,3 @@
-/**
- *
- * @namespace {Dom}
- * @example
- *
- * Dom
- * ---
- *	
- * Manipulating the Document Object Model aka the DOM.
- * 
- */
 xui.extend({
 
     /**
