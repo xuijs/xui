@@ -1,3 +1,10 @@
+/*
+Base
+===
+
+Includes functionality used to manipulate the xui object collection; things like iteration and set operations are included here.
+
+*/
 var undefined,
     xui,
     window     = this,
@@ -29,7 +36,7 @@ if (! [].forEach) {
         }
     };
 }
-/**
+/*
  * Array Remove - By John Resig (MIT Licensed) 
  */
 function removex(array, from, to) {
@@ -39,7 +46,41 @@ function removex(array, from, to) {
 }
 
 xui.fn = xui.prototype = {
+/**
+extend
+---
 
+Allows extension of xui's prototype with the members/methods of the provided object.
+
+__syntax__
+
+Call extend on the xui object to extend all xui instances with functionality or new members.
+
+    xui.extend( object );
+
+__arguments__
+
+ - object:object a JavaScript object whose members will be incorporated into xui's prototype
+ 
+__example__
+
+Given:
+
+    var thing = {
+        first : function() { return this[ 0 ]; },
+        last : function() { return this[ this.length - 1 ]; }
+    }
+
+We can extend xui's prototype with these methods by using `extend`:
+
+    xui.extend( thing );
+
+Now we can use `first` and `last` in all instances of xui:
+
+    var f = x$( '.someClass' ).first();
+    var l = x$( '.differentClass' ).last();
+
+*/
     extend: function(o) {
         for (var i in o) {
             xui.fn[i] = o[i];
@@ -96,7 +137,7 @@ xui.fn = xui.prototype = {
         return this.set(ele);
     },
 
-    /** 
+    /**
      * Resets the body of elements contained in XUI
      * Note that due to the way this.length = 0 works
      * if you do console.dir() you can still see the 
@@ -183,7 +224,3 @@ xui.fn = xui.prototype = {
 
 xui.fn.find.prototype = xui.fn;
 xui.extend = xui.fn.extend;
-
-// --- 
-/// imports(); 
-// ---
