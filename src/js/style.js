@@ -1,14 +1,9 @@
 /**
- *
- * @namespace {Style}
- * @example
- *
- * Style
- * ---
- *	
- * Anything related to how things look. Usually, this is CSS.
- * 
- */
+	Style
+	=====
+
+	Anything related to how things look. Usually, this is CSS.
+*/
 function hasClass(el, className) {
     return getClassRegEx(className).test(el.className);
 }
@@ -23,31 +18,25 @@ function trim(text) {
 
 xui.extend({
 
-    /**
-	 * 
-	 * Sets a single CSS property to a new value.
-	 * 
-	 * @param {String} prop The property to set.
-	 * @param {String} val The value to set the property.
-	 * @return self
-	 * @example
-	 *
-	 * ### setStyle
-	 *	
-	 * syntax: 
-	 *
-	 * 	x$(selector).setStyle(property, value);
-	 *
-	 * arguments: 
-	 *
-	 * - property:string the property to modify
-	 * - value:string the property value to set
-	 *
-	 * example:
-	 * 
-	 * 	x$('.txt').setStyle('color', '#000');
-	 * 
-	 */
+/**
+	setStyle
+	--------
+
+	Sets a single CSS property to a new value.
+
+	### syntax ###
+
+		x$(selector).setStyle(property, value);
+
+	### arguments ###
+
+	- property:string the property to modify
+	- value:string the property value to set
+
+	### example ###
+
+		x$('.txt').setStyle('color', '#000');
+*/
     setStyle: function(prop, val) {
         prop = prop.replace(/\-[a-z]/g,function(m) { return m[1].toUpperCase(); });
         return this.each(function(el) {
@@ -55,33 +44,27 @@ xui.extend({
         });
     },
 
-    /**
-	 * 
-	 * Retuns a single CSS property. Can also invoke a callback to perform more specific processing tasks related to the property value.
-	 * 
-	 * @param {String} prop The property to retrieve.
-	 * @param {Function} callback A callback function to invoke with the property value.
-	 * @return self if a callback is passed, otherwise the individual property requested
-	 * @example
-	 *
-	 * ### getStyle
-	 *	
-	 * syntax: 
-	 *
-	 * 	x$(selector).getStyle(property, callback);
-	 *
-	 * arguments: 
-	 * 
-	 * - property:string a css key (for example, border-color NOT borderColor)
-	 * - callback:function (optional) a method to call on each element in the collection 
-	 *
-	 * example:
-	 *
-	 *	x$('ul#nav li.trunk').getStyle('font-size');
-	 *	
-	 * 	x$('a.globalnav').getStyle( 'background', function(prop){ prop == 'blue' ? 'green' : 'blue' });
-	 *
-	 */
+/**
+	getStyle
+	--------
+
+	Retuns a single CSS property. Can also invoke a callback to perform more specific processing tasks related to the property value.
+
+	### syntax ###
+
+		x$(selector).getStyle(property, callback);
+
+	### arguments ###
+
+	- property:string a css key (for example, border-color NOT borderColor)
+	- callback:function (optional) a method to call on each element in the collection 
+
+	### example ###
+
+		x$('ul#nav li.trunk').getStyle('font-size');
+		
+		x$('a.globalnav').getStyle( 'background', function(prop){ prop == 'blue' ? 'green' : 'blue' });
+*/
     getStyle: function(prop, callback) {
         // shortcut getComputedStyle function
         var s = function(el, p) {
@@ -99,29 +82,24 @@ xui.extend({
             });
     },
 
-    /**
-	 *
-	 * Adds the classname to all the elements in the collection. 
-	 * 
-	 * @param {String} className The class name.
-	 * @return self
-	 * @example
-	 *
-	 * ### addClass
-	 *	
-	 * syntax:
-	 *
-	 * 	$(selector).addClass(className);
-	 * 
-	 * arguments:
-	 *
-	 * - className:string the name of the CSS class to apply
-	 *
-	 * example:
-	 * 
-	 * 	$('.foo').addClass('awesome');
-	 *
-	 */
+/**
+	addClass
+	--------
+
+	Adds the classname to all the elements in the collection.
+
+	### syntax ###
+
+		$(selector).addClass(className);
+
+	### arguments ###
+
+	- className:string the name of the CSS class to apply
+
+	### example ###
+
+		$('.foo').addClass('awesome');
+*/
     addClass: function(className) {
         return this.each(function(el) {
             if (hasClass(el, className) === false) {
@@ -129,32 +107,27 @@ xui.extend({
             }
         });
     },
-    /**
-	 *
-	 * Checks to see if classname is one the element. If a callback isn't passed, hasClass expects only one element in collection - but should it?
-	 * 
-	 * @param {String} className The class name.
-	 * @param {Function} callback A callback function (optional)
-	 * @return self if a callback is passed, otherwise true or false as to whether the element has the class
-	 * @example
-	 *
-	 * ### hasClass
-	 *	
-	 * syntax:
-	 *
-	 * 	$(selector).hasClass('className');
-	 * 	$(selector).hasClass('className', function(element) {});	 
-	 * 
-	 * arguments:
-	 *
-	 * - className:string the name of the CSS class to apply
-	 *
-	 * example:
-	 * 
-	 * 	$('#foo').hasClass('awesome'); // returns true or false
-	 * 	$('.foo').hasClass('awesome',function(e){}); // returns XUI object
-	 *
-	 */
+
+/**
+	hasClass
+	--------
+
+	Checks to see if classname is one the element. If a callback isn't passed, hasClass expects only one element in collection - but should it?
+
+	### syntax ###
+
+		$(selector).hasClass('className');
+		$(selector).hasClass('className', function(element) {});	 
+
+	### arguments ###
+
+	- className:string the name of the CSS class to apply
+
+	### example ###
+
+		$('#foo').hasClass('awesome'); // returns true or false
+		$('.foo').hasClass('awesome',function(e){}); // returns XUI object
+*/
     hasClass: function(className, callback) {
         var self = this;
         return this.length && (function() {
@@ -169,29 +142,24 @@ xui.extend({
             })();
     },
 
-    /**
-	 *
-	 * Removes the classname from all the elements in the collection. 
-	 * 
-	 * @param {String} className The class name.
-	 * @return self
-	 * @example
-	 *
-	 * ### removeClass
-	 *	
-	 * syntax:
-	 *
-	 * 	x$(selector).removeClass(className);
-	 * 
-	 * arguments:
-	 *
-	 * - className:string the name of the CSS class to remove.
-	 *
-	 * example:
-	 * 
-	 * 	x$('.bar').removeClass('awesome');
-	 * 
-	 */
+/**
+	removeClass
+	-----------
+
+	Removes the classname from all the elements in the collection.
+
+	### syntax ###
+
+		x$(selector).removeClass(className);
+
+	### arguments ###
+
+	- className:string the name of the CSS class to remove.
+
+	### example ###
+
+		x$('.bar').removeClass('awesome');
+*/
     removeClass: function(className) {
         if (className === undefined) {
             this.each(function(el) {
@@ -207,29 +175,24 @@ xui.extend({
     },
 
 
-    /**
-	 *
-	 * Set a number of CSS properties at once.
-	 * 
-	 * @param {Object} props An object literal of CSS properties and corosponding values.
-	 * @return self
-	 * @example	
-	 *
-	 * ### css
-	 *	
-	 * syntax: 
-	 *
-	 * 	x$(selector).css(object);
-	 *
-	 * arguments: 
-	 *
-	 * - an object literal of css key/value pairs to set.
-	 *
-	 * example:
-	 * 
-	 * 	x$('h2.fugly').css({ backgroundColor:'blue', color:'white', border:'2px solid red' });
-	 *  
-	 */
+/**
+	css
+	---
+
+	Set a number of CSS properties at once.
+
+	### syntax ###
+
+		x$(selector).css(object);
+
+	### arguments ###
+
+	- an object literal of css key/value pairs to set.
+
+	### example ###
+
+		x$('h2.fugly').css({ backgroundColor:'blue', color:'white', border:'2px solid red' });
+*/
     css: function(o) {
         for (var prop in o) {
             this.setStyle(prop, o[prop]);
