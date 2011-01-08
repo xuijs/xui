@@ -1,55 +1,41 @@
 /**
- *
- * @namespace {Event}
- * @example
- *
- * Event
- * ---
- *	
- * A good old fashioned event handling system.
- * 
+	Event
+	=====
+
+	A good old fashioned event handling system.
  */
 xui.events = {}; var cache = {};
 xui.extend({
-	
-	
-	/**	
-	 *
-	 * Register callbacks to DOM events.
-	 * 
-	 * @param {Event} type The event identifier as a string.
-	 * @param {Function} fn The callback function to invoke when the event is raised.
-	 * @return self
-	 * @example
-	 * 
-	 * ### on
-	 * 
-	 * Registers a callback function to a DOM event on the element collection.
-	 * 
-	 * For more information see:
-	 * 
-	 * - http://developer.apple.com/webapps/docs/documentation/AppleApplications/Reference/SafariWebContent/HandlingEvents/chapter_7_section_1.html#//apple_ref/doc/uid/TP40006511-SW1
-	 *
-	 * syntax:
-	 *
-	 * 		x$('button').on( 'click', function(e){ alert('hey that tickles!') });
-	 * 
-	 * or...
-	 * 
-	 * 		x$('a.save').click(function(e){ alert('tee hee!') });
-	 *
-	 * arguments:
-	 *
-	 * - type:string the event to subscribe to click|load|etc
-	 * - fn:function a callback function to execute when the event is fired
-	 *
-	 * example:
-	 * 	
-	 * 		x$(window).load(function(e){
-	 * 			x$('.save').touchstart( function(evt){ alert('tee hee!') }).css(background:'grey');	
-	 *  	});
-	 * 	
-	 */
+
+/**
+	on
+	--
+
+	Registers a callback function to a DOM event on the element collection.
+
+	For more information see:
+
+		- http://developer.apple.com/webapps/docs/documentation/AppleApplications/Reference/SafariWebContent/HandlingEvents/chapter_7_section_1.html#//apple_ref/doc/uid/TP40006511-SW1
+
+	### syntax ###
+
+		x$('button').on( 'click', function(e){ alert('hey that tickles!') });
+
+	or...
+
+		x$('a.save').click(function(e){ alert('tee hee!') });
+
+	### arguments ###
+
+		- type:string the event to subscribe to click|load|etc
+		- fn:function a callback function to execute when the event is fired
+
+	### example ###
+
+		x$(window).load(function(e){
+		  x$('.save').touchstart( function(evt){ alert('tee hee!') }).css(background:'grey');
+		});
+*/
 	/*on: function(type, fn) {
 	    return this.each(function(el) {
             if (window.addEventListener) {
@@ -113,30 +99,24 @@ xui.extend({
   
 // --
 });
-/**
- *
- * @namespace {Event}
- * @example
- *
- * Event
- * ---
- *	
- * A good new skool fashioned event handling system.
- *
- * - click
- * - load
- * - touchstart
- * - touchmove
- * - touchend
- * - touchcancel
- * - gesturestart
- * - gesturechange
- * - gestureend
- * - orientationchange
- *
- * 
- */
 
+/**
+	Events
+	------
+
+	A good new skool fashioned event handling system.
+
+	- click
+	- load
+	- touchstart
+	- touchmove
+	- touchend
+	- touchcancel
+	- gesturestart
+	- gesturechange
+	- gestureend
+	- orientationchange
+ */
 "click load submit touchstart touchmove touchend touchcancel gesturestart gesturechange gestureend orientationchange".split(' ').forEach(function (event) {
   xui.fn[event] = function(action) { return function (fn) { return fn ? this.on(action, fn) : this.fire(action); }; }(event);
 });
