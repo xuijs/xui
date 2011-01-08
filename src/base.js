@@ -178,7 +178,7 @@ Sets the objects in the xui collection.
 
 __syntax__
 
-    x$(window).set([]);
+    x$(window).set( array );
 
 */
     set: function(elements) {
@@ -196,7 +196,17 @@ Reduces the set of elements in the xui object to a unique set.
 
 __syntax__
 
-    x$(someSelector).reduce( [ [, ]] );
+    x$(someSelector).reduce( [ elements [, toIndex ]] );
+
+The elements
+
+__arguments__
+
+ - elements:Array an array of elements to reduce (optional)
+ - 
+
+__example__
+
 
 
 */
