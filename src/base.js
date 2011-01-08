@@ -54,9 +54,9 @@ Allows extension of xui's prototype with the members/methods of the provided obj
 
 __syntax__
 
-Call extend on the xui object to extend all xui instances with functionality or new members.
-
     xui.extend( object );
+
+Call extend on the xui object to extend all xui instances with functionality and/or members of the passed-in object.
 
 __arguments__
 
@@ -86,7 +86,40 @@ Now we can use `first` and `last` in all instances of xui:
             xui.fn[i] = o[i];
         }
     },
+/**
+find
+---
 
+Finds matching elements based on a query string. The global xui entry `x$` function is a reference to the `find` function.
+
+__syntax__
+
+    x$(window).find( selector [, context] );
+
+__arguments__
+
+ - selector:string a CSS selector string to match elements to.
+ - context:HTMLElement an html element to use as the "root" element to search from.
+ 
+__example__
+
+Given the following markup:
+
+    <ul id="first">
+        <li id="one">1</li>
+        <li id="two">2</li>
+    </ul>
+    <ul id="second">
+        <li id="three">3</li>
+        <li id="four">4</li>
+    </ul>
+
+We can select only specific list items by using `find`, as opposed to selecting off the document root:
+
+    x$('li'); // returns all four list item elements.
+    x$('#second').find('li'); // returns list items "three" and "four"
+
+*/
     find: function(q, context) {
         var ele = [], tempNode;
             
