@@ -12,7 +12,7 @@ xui.extend({
 
 	For manipulating HTML in the DOM.
 
-	__syntax__
+	### syntax ###
 
 		x$(window).html( location, html );
 
@@ -25,12 +25,12 @@ xui.extend({
 	    x$(window).outer( html );
 	    x$(window).before( html );
  
-	__arguments__
+	### arguments ###
  
 	 - location:string can be one of: inner, outer, top, bottom, remove, before or after.
 	 - html:string any string of html markup or an HTMLElement.
 
-	__example__
+	### example ###
 
 	  	x$('#foo').html( 'inner', '<strong>rock and roll</strong>' );
 	  	x$('#foo').html( 'outer', '<p>lock and load</p>' );
@@ -106,7 +106,7 @@ xui.extend({
 
 	For getting or setting attributes on elements.
 
-	__syntax (and examples)__
+	### syntax (and examples) ###
 
 	    x$(window).attr( attribute, value );
 
@@ -118,7 +118,7 @@ xui.extend({
 
 		x$('.someClass').attr( 'disabled', 'disabled' );
 
-	__arguments__
+	### arguments ###
 
 	- attribute:string the name of the element's attribute to set or retrieve.
 	- html:string if retrieving an attribute value, don't specify this parameter. Otherwise, this is the value to set the attribute to.

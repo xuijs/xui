@@ -3,6 +3,7 @@
 	=====
 
 	A good old fashioned event handling system.
+	
  */
 xui.events = {}; var cache = {};
 xui.extend({
