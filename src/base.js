@@ -170,12 +170,17 @@ We can select only specific list items by using `find`, as opposed to selecting 
         return this.set(ele);
     },
 
-    /**
-     * Resets the body of elements contained in XUI
-     * Note that due to the way this.length = 0 works
-     * if you do console.dir() you can still see the 
-     * old elements, but you can't access them. Confused?
-     */
+/**
+set
+---
+
+Sets the objects in the xui collection.
+
+__syntax__
+
+    x$(window).set([]);
+
+*/
     set: function(elements) {
         var ret = xui();
         ret.cache = slice(this.length ? this : []);
@@ -183,10 +188,18 @@ We can select only specific list items by using `find`, as opposed to selecting 
         [].push.apply(ret, elements);
         return ret;
     },
+/**
+reduce
+---
 
-    /**
-    * Array Unique
-    */
+Reduces the set of elements in the xui object to a unique set.
+
+__syntax__
+
+    x$(someSelector).reduce( [ [, ]] );
+
+
+*/
     reduce: function(elements, b) {
         var a = [],
         elements = elements || slice(this);
