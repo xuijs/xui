@@ -52,17 +52,17 @@ xui.fn = xui.prototype = {
 
 	Allows extension of xui's prototype with the members/methods of the provided object.
 
-	__syntax__
+	### syntax ###
 
 	    xui.extend( object );
 
 	Call extend on the xui object to extend all xui instances with functionality and/or members of the passed-in object.
 
-	__arguments__
+	### arguments ###
 
 	 - object:object a JavaScript object whose members will be incorporated into xui's prototype
  
-	__example__
+	### example ###
 
 	Given:
 
@@ -92,16 +92,16 @@ xui.fn = xui.prototype = {
 
 	Finds matching elements based on a query string. The global xui entry `x$` function is a reference to the `find` function.
 
-	__syntax__
+	### syntax ###
 
 	    x$(window).find( selector [, context] );
 
-	__arguments__
+	### arguments ###
 
 	 - selector:string a CSS selector string to match elements to.
 	 - context:HTMLElement an html element to use as the "root" element to search from.
  
-	__example__
+	### example ###
 
 	Given the following markup:
 
@@ -176,7 +176,7 @@ xui.fn = xui.prototype = {
 
 	Sets the objects in the xui collection.
 
-	__syntax__
+	### syntax ###
 
 	    x$(window).set( array );
 
@@ -194,13 +194,13 @@ xui.fn = xui.prototype = {
 
 	Reduces the set of elements in the xui object to a unique set.
 
-	__syntax__
+	### syntax ###
 
 	    x$(someSelector).reduce( [ elements [, toIndex ]] );
 
 	The elements parameter is optional - if not specified, will reduce the elements in the current xui object.
 
-	__arguments__
+	### arguments ###
 
 	 - elements:Array an array of elements to reduce (optional)
 	 - toIndex:Number last index of elements to include in the reducing operation.
@@ -223,17 +223,17 @@ xui.fn = xui.prototype = {
 
 	Has modifies the elements array and returns all the elements that match (has) a CSS selector.
 
-	__syntax__
+	### syntax ###
 
 	    x$(someSelector).has( query );
     
 	Behind the scenes, actually calls the filter method.
 
-	__arguments__
+	### arguments ###
 
 	 - query:string a CSS selector that will match all children of originally-selected xui collection
  
-	__example__
+	### example ###
 
 	Given
 	
@@ -265,18 +265,18 @@ xui.fn = xui.prototype = {
 	
 	Both an internal utility function, but also allows developers to extend xui using custom filters
 	
-	__syntax__
+	### syntax ###
 	
 	    x$(someSelector).filter( functionHandle );
 	    
 	The `functionHandle` function will get invoked with `this` being the element being iterated on,
 	and the index passed in as a parameter.
 	    
-	__arguments__
+	### arguments ###
 	
 	 - functionHandle:Function a function reference that evaluates to true/false, determining which elements get included in the xui collection.
 	 
-	__example__
+	### example ###
 	
 	Perhaps we'd want to filter input elements that are disabled:
 	
@@ -297,15 +297,15 @@ xui.fn = xui.prototype = {
 	
 	Not modifies the elements array and returns all the elements that DO NOT match a CSS Query - the opposite of has
 	
-	__syntax__
+	### syntax ###
 	
 	    x$(someSelector).not( someOtherSelector );
 	
-	__arguments__
+	### arguments ###
 	
 	 - someOtherSelector:string a CSS selector that elements should NOT match to.
 	
-	__example__
+	### example ###
 	
 	Given
 	
@@ -336,15 +336,15 @@ xui.fn = xui.prototype = {
 	
 	Element iterator (over the xui collection).
 	
-	__syntax__
+	### syntax ###
 	
 	    x$(window).each( functionHandle )
 	
-	__arguments__
+	### arguments ###
 	
 	 - functionHandle:Function callback function that will execute with each element being passed in as the `this` object and first parameter to callback
 	
-	__example__
+	### example ###
 	
 	    x$(someSelector).each(function(element, index, xui) {
 	        alert("Here's the " + index + " element: "+ element);
