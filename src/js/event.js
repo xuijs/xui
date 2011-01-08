@@ -15,7 +15,7 @@ xui.extend({
 
 	For more information see:
 
-		- http://developer.apple.com/webapps/docs/documentation/AppleApplications/Reference/SafariWebContent/HandlingEvents/chapter_7_section_1.html#//apple_ref/doc/uid/TP40006511-SW1
+	- http://developer.apple.com/webapps/docs/documentation/AppleApplications/Reference/SafariWebContent/HandlingEvents/chapter_7_section_1.html#//apple_ref/doc/uid/TP40006511-SW1
 
 	### syntax ###
 
@@ -27,8 +27,8 @@ xui.extend({
 
 	### arguments ###
 
-		- type:string the event to subscribe to click|load|etc
-		- fn:function a callback function to execute when the event is fired
+	- type:string the event to subscribe to click|load|etc
+	- fn:function a callback function to execute when the event is fired
 
 	### example ###
 
