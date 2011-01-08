@@ -37,14 +37,6 @@ xui.extend({
 		  x$('.save').touchstart( function(evt){ alert('tee hee!') }).css(background:'grey');
 		});
 */
-	/*on: function(type, fn) {
-	    return this.each(function(el) {
-            if (window.addEventListener) {
-                el.addEventListener(type, fn, false);
-            }
-      });
-  },*/
-  
     on: function(type, fn, details) {
         return this.each(function (el) {
             if (xui.events[type]) {
@@ -64,7 +56,41 @@ xui.extend({
             el.addEventListener(type, _createResponder(el, type, fn), false);
         });
     },
-
+/**
+	un
+	--
+	
+	Unregisters a specific callback, or if no specific callback is passed in, 
+	unregisters all event callbacks of a specific type.
+	
+	### syntax ###
+	
+	    x$('button').un('click', specificCallback);
+	    
+	The above unregisters only the `specificCallback` function on all button elements.
+	
+	    x$('button').un('click');
+	    
+	The above unregisters all callbacks assigned to all button elements.
+	
+	### arguments ###
+	
+	- type:string the event to unsubscribe from click|load|etc
+	- fn:function callback function to unsubscribe (optional)
+	
+	### example ###
+	
+	    x$('button').on('click',function(){alert('hi!');}); // callback subscribed to click.
+	    x$('button').un('click'); // No more callbacks fired on click of button elements!
+	    
+	or ...
+	
+	    var funk = function() { alert('yo!'); }
+    	x$('button').on('click', funk); // callback subscribed to click.
+    	x$('button').on('click', function(){ alert('hi!'); });
+        x$('button').un('click', funk); // When buttons are clicked, the 'hi!' alert will pop up but not the 'yo!' alert.
+	
+*/
     un: function(type, fn) {
         return this.each(function (el) {
             var id = _getEventID(el), responders = _getRespondersForEvent(id, type), i = responders.length;
@@ -83,7 +109,28 @@ xui.extend({
             delete cache[id];
         });
     },
+/**
+	fire
+	----
 
+    Fires a specific event on the xui collection.
+
+	### syntax ###
+
+	    x$('button').fire('click', {some:'data'});
+
+    Fires an event with some specific data attached to the event's `data` property.
+
+	### arguments ###
+
+	- type:string the event to fire, click|load|etc
+	- data:object JavaScript object to attach to the event's `data` property.
+
+	### example ###
+
+    EXAMPLE HERE AHHHH
+
+*/
     fire: function (type, data) {
         return this.each(function (el) {
             if (el == document && !el.dispatchEvent)
