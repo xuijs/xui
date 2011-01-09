@@ -52,7 +52,7 @@ xui.extend({
             html = location;
             location = 'inner';
         }
-        if (html.each !== undefined) {
+        if (html && html.each !== undefined) {
             var that = this;
             html.each(function(el){
                 that.html(location, el);
