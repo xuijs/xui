@@ -199,6 +199,12 @@ CoreTests.prototype.run = function () {
             var eltwo = x$('#remove-me-2');
             eltwo.html('remove');
             equals(document.getElementById('remove-me-2'), null, 'Element should not exist after calling html("remove")');
+            try {
+                x$('#doesnt-exist').remove();
+                x$('#neither-does-this-one').html('remove');
+            } catch(e) {
+                ok(false, 'Should not trigger exception on empty xui collections.');
+            }
         });
         test( '.html()', function(){
             expect(4);
