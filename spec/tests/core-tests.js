@@ -22,10 +22,6 @@ CoreTests.prototype.run = function () {
         test( '.not()', function(){
             equals(x.not(".foo").length, 3, 'Should return number of elements after omitting a specific class as defined in markup');
         });
-
-    // ---
-    /// dom.js specs
-    // ---
     
     module("Selectors (base.js)", {
         setup:function() {},
@@ -195,6 +191,15 @@ CoreTests.prototype.run = function () {
             bottom.html('bottom', numerousItems);
             equals(bottom[0].childNodes.length, numOriginalElements + 3, 'Should append numerous elements when passed as string');
         });
+        test( 'Removing html elements via "remove"', function() {
+            expect(2);
+            var el = x$('#remove-me');
+            el.remove();
+            ok(document.getElementById('remove-me'), null, 'Element should not exist after calling remove()');
+            var eltwo = x$('#remove-me-2');
+            eltwo.html('remove');
+            ok(document.getElementById('remove-me'), null, 'Element should not exist after calling html("remove")');
+        });
         test( '.html()', function(){
             expect(4);
             equals(h.html(), h[0].innerHTML, 'Should return innerHTML when called with no arguments');
@@ -282,7 +287,7 @@ CoreTests.prototype.run = function () {
     // --
     /// event specs
     // --
-    module("Events", {
+    module("Events (event.js)", {
         setup:function() {
             // updated to create new element to reset events associated
             var div = document.createElement('div');
