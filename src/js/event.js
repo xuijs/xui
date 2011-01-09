@@ -167,9 +167,7 @@ xui.extend({
 // patched orientation support - Andriod 1 doesn't have native onorientationchange events
 xui(window).on('load', function() {
     if (!('onorientationchange' in document.body)) {
-      (function () {
-        var w = window.innerWidth, h = window.innerHeight;
-        
+      (function (w, h) {
         xui(window).on('resize', function () {
           var portraitSwitch = (window.innerWidth < w && window.innerHeight > h) && (window.innerWidth < window.innerHeight),
               landscapeSwitch = (window.innerWidth > w && window.innerHeight < h) && (window.innerWidth > window.innerHeight);
@@ -180,7 +178,7 @@ xui(window).on('load', function() {
             h = window.innerHeight;
           }
         });
-      })();
+      })(window.innerWidth, window.innerHeight);
     }
 });
 
