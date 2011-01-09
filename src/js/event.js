@@ -67,40 +67,40 @@ xui.extend({
             el.addEventListener(type, _createResponder(el, type, fn), false);
         });
     },
+
 /**
 	un
 	--
-	
+
 	Unregisters a specific callback, or if no specific callback is passed in, 
 	unregisters all event callbacks of a specific type.
-	
+
 	### syntax ###
-	
-	    x$('button').un('click', specificCallback);
-	    
+
+		x$('button').un('click', specificCallback);
+
 	The above unregisters only the `specificCallback` function on all button elements.
-	
-	    x$('button').un('click');
-	    
+
+		x$('button').un('click');
+
 	The above unregisters all callbacks assigned to all button elements.
-	
+
 	### arguments ###
-	
+
 	- type:string the event to unsubscribe from click|load|etc
 	- fn:function callback function to unsubscribe (optional)
-	
+
 	### example ###
-	
-	    x$('button').on('click',function(){alert('hi!');}); // callback subscribed to click.
-	    x$('button').un('click'); // No more callbacks fired on click of button elements!
-	    
+
+		x$('button').on('click',function(){alert('hi!');}); // callback subscribed to click.
+		x$('button').un('click'); // No more callbacks fired on click of button elements!
+
 	or ...
-	
-	    var funk = function() { alert('yo!'); }
-    	x$('button').on('click', funk); // callback subscribed to click.
-    	x$('button').on('click', function(){ alert('hi!'); });
-        x$('button').un('click', funk); // When buttons are clicked, the 'hi!' alert will pop up but not the 'yo!' alert.
-	
+
+		var funk = function() { alert('yo!'); }
+		x$('button').on('click', funk); // callback subscribed to click.
+		x$('button').on('click', function(){ alert('hi!'); });
+		x$('button').un('click', funk); // When buttons are clicked, the 'hi!' alert will pop up but not the 'yo!' alert.
 */
     un: function(type, fn) {
         return this.each(function (el) {
@@ -120,17 +120,18 @@ xui.extend({
             delete cache[id];
         });
     },
+
 /**
 	fire
 	----
 
-    Fires a specific event on the xui collection.
+	Fires a specific event on the xui collection.
 
 	### syntax ###
 
-	    x$('button').fire('click', {some:'data'});
+		x$('button').fire('click', {some:'data'});
 
-    Fires an event with some specific data attached to the event's `data` property.
+	Fires an event with some specific data attached to the event's `data` property.
 
 	### arguments ###
 
@@ -139,8 +140,8 @@ xui.extend({
 
 	### example ###
 
-    x$('button#reset').fire('click', {died:true});
-    x$('.target').fire('touchstart');
+        x$('button#reset').fire('click', {died:true});
+        x$('.target').fire('touchstart');
 
 */
     fire: function (type, data) {
@@ -156,8 +157,6 @@ xui.extend({
             el.dispatchEvent(event);
   	    });
   	}
-  
-// --
 });
 
 "click load submit touchstart touchmove touchend touchcancel gesturestart gesturechange gestureend orientationchange".split(' ').forEach(function (event) {
