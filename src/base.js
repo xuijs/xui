@@ -3,6 +3,7 @@
 	====
 
 	Includes functionality used to manipulate the xui object collection; things like iteration and set operations are included here.
+	
 */
 var undefined,
     xui,
@@ -345,7 +346,7 @@ xui.fn = xui.prototype = {
 	### example ###
 
 		x$(someSelector).each(function(element, index, xui) {
-		    alert("Here's the " + index + " element: "+ element);
+		    alert("Here's the " + index + " element: " + element);
 		});	
 */
     each: function(fn) {

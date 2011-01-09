@@ -3,11 +3,11 @@
 	===
 
 	Remoting methods and utils.
+	
  */
 xui.extend({	
- 
 /**
-	XHR
+	xhr
 	---
 
 	The classic Xml Http Request sometimes also known as the Greek God: Ajax. Not to be confused with AJAX the cleaning agent.
@@ -25,7 +25,7 @@ xui.extend({
 	### options ###
 
 	- method {String} [get|put|delete|post] Defaults to 'get'.
-	- async {Boolen} Asynchronous request. Defaults to false.
+	- async {Boolean} Asynchronous request. Defaults to false.
 	- data {String} A url encoded string of parameters to send.
 	- callback {Function} Called on 200 status (success)
 
@@ -104,5 +104,4 @@ xui.extend({
 
         return this;
     }
-// --
 });

@@ -3,6 +3,7 @@
 	=====
 
 	Anything related to how things look. Usually, this is CSS.
+	
 */
 function hasClass(el, className) {
     return getClassRegEx(className).test(el.className);
@@ -17,7 +18,6 @@ function trim(text) {
 }
 
 xui.extend({
-
 /**
 	setStyle
 	--------
@@ -199,7 +199,6 @@ xui.extend({
         }
         return this;
     }
-// --
 });
 
 // RS: now that I've moved these out, they'll compress better, however, do these variables

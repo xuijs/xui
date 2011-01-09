@@ -3,6 +3,7 @@
 	=======
 
 	Animations, transforms and transitions for getting the most out of hardware accelerated CSS.
+	
  */
 xui.extend({
 
@@ -56,7 +57,6 @@ xui.extend({
     		return serialisedProps;
 		};
 	    
-	    
 		// queued animations
 		if (props instanceof Array) {
 		    // animate each passing the next to the last callback to enqueue
@@ -64,11 +64,7 @@ xui.extend({
 		        
 		    });
 		}
-	
-	    
-	    
-	
-	
+
 	    // this branch means we're dealing with a single tween
 	    var opts = emileOpts(props);
 	    var prop = serialize(props);
@@ -77,5 +73,4 @@ xui.extend({
 			emile(e, prop, opts, callback);
 		});
 	}
-//---
 });
