@@ -195,10 +195,10 @@ CoreTests.prototype.run = function () {
             expect(2);
             var el = x$('#remove-me');
             el.remove();
-            ok(document.getElementById('remove-me'), null, 'Element should not exist after calling remove()');
+            equals(document.getElementById('remove-me'), null, 'Element should not exist after calling remove()');
             var eltwo = x$('#remove-me-2');
             eltwo.html('remove');
-            ok(document.getElementById('remove-me'), null, 'Element should not exist after calling html("remove")');
+            equals(document.getElementById('remove-me-2'), null, 'Element should not exist after calling html("remove")');
         });
         test( '.html()', function(){
             expect(4);
