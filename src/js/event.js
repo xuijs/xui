@@ -2,9 +2,20 @@
 	Event
 	=====
 
-	A good old fashioned event handling system.
+	A good old fashioned yet new skool event handling system.
+
+	- click
+	- load
+	- touchstart
+	- touchmove
+	- touchend
+	- touchcancel
+	- gesturestart
+	- gesturechange
+	- gestureend
+	- orientationchange
 	
- */
+*/
 xui.events = {}; var cache = {};
 xui.extend({
 
@@ -128,7 +139,8 @@ xui.extend({
 
 	### example ###
 
-    EXAMPLE HERE AHHHH
+    x$('button#reset').fire('click', {died:true});
+    x$('.target').fire('touchstart');
 
 */
     fire: function (type, data) {
@@ -148,23 +160,6 @@ xui.extend({
 // --
 });
 
-/**
-	Events
-	------
-
-	A good new skool fashioned event handling system.
-
-	- click
-	- load
-	- touchstart
-	- touchmove
-	- touchend
-	- touchcancel
-	- gesturestart
-	- gesturechange
-	- gestureend
-	- orientationchange
- */
 "click load submit touchstart touchmove touchend touchcancel gesturestart gesturechange gestureend orientationchange".split(' ').forEach(function (event) {
   xui.fn[event] = function(action) { return function (fn) { return fn ? this.on(action, fn) : this.fire(action); }; }(event);
 });
