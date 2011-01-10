@@ -106,9 +106,11 @@ if docs
   FileUtils.rm_r(DOC_DIR) if File.exists?(DOC_DIR)
 
   # Generate HTML
+  puts "Generating documentation as HTML..."
   generate_documentation(HTML_DIR)
 
   # Generate EJS
+  puts "Generating documentation as EJS..."
   generate_documentation(EJS_DIR)
   html_to_ejs(EJS_DIR)
 end
