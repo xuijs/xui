@@ -3,7 +3,7 @@
 	====
 
 	Includes functionality used to manipulate the xui object collection; things like iteration and set operations are included here.
-	
+
 */
 var undefined,
     xui,

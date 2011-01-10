@@ -142,7 +142,6 @@ xui.extend({
 
         x$('button#reset').fire('click', {died:true});
         x$('.target').fire('touchstart');
-
 */
     fire: function (type, data) {
         return this.each(function (el) {

@@ -1,43 +1,78 @@
 #!/usr/bin/env ruby
 require 'YAML'
 require 'fileutils'
+
+PROFILE_PATH = "util/profiles"
+
 # TODO: print out build command line if no args provided.
-# usage: ./build [profile=whatever] [--minify] [--doc]
 
-# man I sure love Windows! --alunny
-is_windows = Dir.getwd[0,1] != "/"
-echo_dot = is_windows ? "echo." : "echo"
-cat = is_windows ? "type" : "cat"
-mkdir = is_windows ? "mkdir" : "mkdir -p"
+def show_usage
+  STDERR.puts "\nusage: ./build [ profile=<name> ] [ --minify ] [ --generate-docs ]"
+  STDERR.puts "\nsupported profiles are:"
+  Dir.chdir(PROFILE_PATH) do
+    STDERR.puts Dir['*.js'].map {|profile| "\t#{profile.sub(/\.js/, '')}"}
+  end
+  STDERR.puts "\nIf no profile is selected, 'core' will be used\n\n"
+  exit(1)
+end
 
-profile_matcher = /^profile=(.*)$/
-profile_path = "util/profiles/"
 # defaults
 profile = "core"
 minify = false
 docs = false
 
-$*.each do |arg|
-  minify = true if arg == "--minify"
-  docs = true if arg == "--doc"
-  profile = arg.match(profile_matcher)[1] if arg.match(profile_matcher)
+ARGV.each do |arg|
+  case arg
+  when "--minify" then minify = true
+  when /^profile=(.*)$/ then profile = $1
+  when "--generate-docs" then docs = true
+  when "--help" then show_usage
+  else
+      STDERR.puts("Invalid parameter '#{arg}'") unless arg == "--help"
+      show_usage
+  end
 end
-hash = YAML.load_file "#{ profile_path }#{ profile }.js"
+hash = YAML.load_file(File.join(PROFILE_PATH, profile) + ".js")
 
 # clear previous file
-`#{ mkdir } lib`
-`#{ echo_dot } > #{ hash["out"] }`
+target = hash["out"]
+target_dir = File.dirname(target)
 
-hash["include"].each do |include|
-  # a bit of overhead since not all files end in a newline
-  include = is_windows ? include.gsub("/","\\") : include
-  `#{ cat } #{ include }.js >> #{ hash["out"] }`
-  `#{ echo_dot } >> #{ hash["out"] }`
-end
+Dir.mkdir(target_dir) unless File.directory?(target_dir)
+File.unlink(target) if File.exist?(target)
+
+content = hash["include"].map {|library| File.read(library + ".js") }
+
+File.open(target, "w") {|op| op.puts content }
 
 if minify
+  puts "Minify-ing..."
+  minified_filename = hash['out'].sub(/\.js$/, '.min.js')
   `java -jar util/compiler.jar --js=#{ hash["out"] } \
-  --js_output_file=#{ hash["out"] }.min`
+  --js_output_file=#{ minified_filename }`
+end
+
+if docs
+  XUI_DIR = File.expand_path(File.dirname(__FILE__))
+  DOC_DIR = File.join(XUI_DIR, 'doc')
+  SRC_DIR = File.join(XUI_DIR, 'src')
+
+  FileUtils.rm_r(DOC_DIR) if File.exists?(DOC_DIR)
+  FileUtils.mkdir(DOC_DIR)
+
+  FileUtils.cd(SRC_DIR) do
+    files = Dir['**/*.js'].reject{ |f| (f =~ /ie\//) != nil }.join(' ')
+    `jodoc --output ../doc #{files}`
+  end
+
+  # Generate HTML
+  puts "Generating documentation as HTML..."
+  generate_documentation(HTML_DIR)
+
+  # Generate EJS
+  puts "Generating documentation as EJS..."
+  generate_documentation(EJS_DIR)
+  html_to_ejs(EJS_DIR)
 end
 
 if docs

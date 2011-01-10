@@ -3,9 +3,9 @@
 	===
 
 	Set of methods used for manipulating the Document Object Model (DOM).
+
 */
 xui.extend({
-
 /**
 	html
 	---

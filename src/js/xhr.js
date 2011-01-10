@@ -3,7 +3,7 @@
 	===
 
 	Remoting methods and utils.
-	
+
  */
 xui.extend({	
 /**
