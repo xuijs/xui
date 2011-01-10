@@ -59,11 +59,21 @@ xui.extend({
             html = location;
             location = 'inner';
         }
-        if (html && html.each !== undefined) {
-            var that = this;
-            html.each(function(el){
-                that.html(location, el);
-            });
+        if (location != 'remove' && html && html.each !== undefined) {
+            if (location == 'inner') {
+                var d = document.createElement('p');
+                html.each(function(el) {
+                    d.appendChild(el);
+                });
+                this.each(function(el) {
+                    el.innerHTML = d.innerHTML;
+                });
+            } else {
+                var that = this;
+                html.each(function(el){
+                    that.html(location, el);
+                });
+            }
             return this;
         }
         return this.each(function(el) {
