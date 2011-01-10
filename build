@@ -47,8 +47,9 @@ File.open(target, "w") {|op| op.puts content }
 
 if minify
   puts "Minify-ing..."
+  minified_filename = hash['out'].sub(/\.js$/, '.min.js')
   `java -jar util/compiler.jar --js=#{ hash["out"] } \
-  --js_output_file=#{ hash["out"] }.min`
+  --js_output_file=#{ minified_filename }`
 end
 
 if docs
