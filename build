@@ -63,4 +63,13 @@ if docs
     files = Dir['**/*.js'].reject{ |f| (f =~ /ie\//) != nil }.join(' ')
     `jodoc --output ../doc #{files}`
   end
+
+  # Generate HTML
+  puts "Generating documentation as HTML..."
+  generate_documentation(HTML_DIR)
+
+  # Generate EJS
+  puts "Generating documentation as EJS..."
+  generate_documentation(EJS_DIR)
+  html_to_ejs(EJS_DIR)
 end
