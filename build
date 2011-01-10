@@ -7,7 +7,7 @@ PROFILE_PATH = "util/profiles"
 # TODO: print out build command line if no args provided.
 
 def show_usage
-  STDERR.puts "\nusage: ./build [ profile=<name> ] [ --minify ] [--generate-doc]"
+  STDERR.puts "\nusage: ./build [ profile=<name> ] [ --minify ] [ --generate-docs ]"
   STDERR.puts "\nsupported profiles are:"
   Dir.chdir(PROFILE_PATH) do
     STDERR.puts Dir['*.js'].map {|profile| "\t#{profile.sub(/\.js/, '')}"}
@@ -25,8 +25,9 @@ ARGV.each do |arg|
   case arg
   when "--minify" then minify = true
   when /^profile=(.*)$/ then profile = $1
-  when "--generate-doc" then docs = true
-  else
+  when "--generate-docs" then docs = true
+  when "--help" then show_usage
+  else 
       STDERR.puts("Invalid parameter '#{arg}'") unless arg == "--help"
       show_usage
   end
