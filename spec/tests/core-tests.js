@@ -142,11 +142,17 @@ CoreTests.prototype.run = function () {
         }
     });
         test( 'Inserting html "after"', function() {
-            expect(2);
+            expect(5);
             h.html('after', '<div>after</div>');
             equals(h[0].nextSibling.innerHTML, 'after', 'New next sibling element should be created');
             h.after('<div>after again</div>');
             equals(h[0].nextSibling.innerHTML, 'after again', 'Using shortcut .after(), new next sibling element should be created');
+            equals(h[0].nextSibling.nextSibling.innerHTML, 'after', 'Doesn\'t destroy sibling nodes.');
+            var inputs = x$('input');
+            h.after(inputs);
+            equals(h[0].nextSibling, inputs[inputs.length-1], 'Using xui collection as parameter, next sibling to element is last element in parameter collection.');
+            h.after(inputs[0]);
+            equals(h[0].nextSibling, inputs[0], 'Using HTMLElement as parameter, next sibling to element is passed in element.');
         });
 
         test( 'Inserting html "before"', function() {
