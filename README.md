@@ -15,11 +15,12 @@ To get the full source you need  _Git_:
     $ git submodule init
     $ git submodule update
 
-To build XUI, you will need _Ruby_:
+To build XUI, you will need _Ruby_, and if minifying, _Java_ as well:
 
     $ ./build                 # Generates lib/xui.js
     $ ./build profile=bb      # Builds XUI for BlackBerry 4/5 browsers (uses Sizzle selector engine)
     $ ./build profile=ie      # Builds XUI for Internet Explorer
+    $ ./build --minify        # Builds XUI and minifies (_Java_ required)
 
 Generating Documentation
 ------------------------

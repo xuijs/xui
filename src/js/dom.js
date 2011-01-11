@@ -22,33 +22,32 @@ xui.extend({
 
 	or you can use shorthand syntax by using the location name argument (see below) as the function name.
 
-	    x$(window).outer( html );
-	    x$(window).before( html );
- 
+		x$(window).outer( html );
+		x$(window).before( html );
+
 	### arguments ###
- 
-	 - location:string can be one of: inner, outer, top, bottom, remove, before or after.
-	 - html:string any string of html markup or an HTMLElement.
+
+	- location:string can be one of: inner, outer, top, bottom, remove, before or after.
+	- html:string any string of html markup or an HTMLElement.
 
 	### example ###
 
-	  	x$('#foo').html( 'inner', '<strong>rock and roll</strong>' );
-	  	x$('#foo').html( 'outer', '<p>lock and load</p>' );
+		x$('#foo').html( 'inner', '<strong>rock and roll</strong>' );
+		x$('#foo').html( 'outer', '<p>lock and load</p>' );
 		x$('#foo').html( 'top', '<div>bangers and mash</div>');
-	  	x$('#foo').html( 'bottom','<em>mean and clean</em>');
-	  	x$('#foo').html( 'remove');	
-	  	x$('#foo').html( 'before', '<p>some warmup html</p>');
-	  	x$('#foo').html( 'after', '<p>more html!</p>');
- 
+		x$('#foo').html( 'bottom','<em>mean and clean</em>');
+		x$('#foo').html( 'remove');
+		x$('#foo').html( 'before', '<p>some warmup html</p>');
+		x$('#foo').html( 'after', '<p>more html!</p>');
+
 	or
 
-	    x$('#foo').html( '<p>sweet as honey</p>' );
-	    x$('#foo').outer( '<p>free as a bird</p>' );
-	    x$('#foo').top( '<b>top of the pops</b>' );
-	    x$('#foo').bottom( '<span>bottom of the barrel</span>' );
-	    x$('#foo').before( '<pre>first in line</pre>' );
-	    x$('#foo').after( '<marquee>better late than never</marquee>' );
-
+		x$('#foo').html( '<p>sweet as honey</p>' );
+		x$('#foo').outer( '<p>free as a bird</p>' );
+		x$('#foo').top( '<b>top of the pops</b>' );
+		x$('#foo').bottom( '<span>bottom of the barrel</span>' );
+		x$('#foo').before( '<pre>first in line</pre>' );
+		x$('#foo').after( '<marquee>better late than never</marquee>' );
 */
     html: function(location, html) {
         clean(this);
@@ -60,11 +59,21 @@ xui.extend({
             html = location;
             location = 'inner';
         }
-        if (html.each !== undefined) {
-            var that = this;
-            html.each(function(el){
-                that.html(location, el);
-            });
+        if (location != 'remove' && html && html.each !== undefined) {
+            if (location == 'inner') {
+                var d = document.createElement('p');
+                html.each(function(el) {
+                    d.appendChild(el);
+                });
+                this.each(function(el) {
+                    el.innerHTML = d.innerHTML;
+                });
+            } else {
+                var that = this;
+                html.each(function(el){
+                    that.html(location, el);
+                });
+            }
             return this;
         }
         return this.each(function(el) {
@@ -108,12 +117,12 @@ xui.extend({
 
 	### syntax (and examples) ###
 
-	    x$(window).attr( attribute, value );
+		x$(window).attr( attribute, value );
 
 	To retrieve an attribute value, simply don't provide the optional second parameter:
 
 		x$('.someClass').attr( 'class' );
-	
+
 	To set an attribute, use both parameters:
 
 		x$('.someClass').attr( 'disabled', 'disabled' );
@@ -122,7 +131,6 @@ xui.extend({
 
 	- attribute:string the name of the element's attribute to set or retrieve.
 	- html:string if retrieving an attribute value, don't specify this parameter. Otherwise, this is the value to set the attribute to.
-
 */
     attr: function(attribute, val) {
         if (arguments.length == 2) {

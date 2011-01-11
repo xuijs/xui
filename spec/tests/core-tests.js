@@ -22,10 +22,6 @@ CoreTests.prototype.run = function () {
         test( '.not()', function(){
             equals(x.not(".foo").length, 3, 'Should return number of elements after omitting a specific class as defined in markup');
         });
-
-    // ---
-    /// dom.js specs
-    // ---
     
     module("Selectors (base.js)", {
         setup:function() {},
@@ -79,11 +75,11 @@ CoreTests.prototype.run = function () {
             ok(style == 'rgb(0, 0, 255)' || style == '#0000ff', 'Should return proper style via CSS style name');
             var styletwo = e.getStyle('backgroundColor').toLowerCase();
             ok(styletwo == 'rgb(0, 0, 255)' || styletwo == '#0000ff', 'Should return proper style via DOM style name');
-            stop();
+            QUnit.stop();
             e.getStyle('background-color', function(v){
                 v = v.toLowerCase();
                 ok(v == 'rgb(0, 0, 255)' || v == '#0000ff', 'Should return proper style in callback function');
-                start();
+                QUnit.start();
             });
         });
         test( '.setStyle()', function(){
@@ -120,11 +116,11 @@ CoreTests.prototype.run = function () {
             
             var z = x$('#style_tests').find('p');
             var numFound = 0;
-            stop();
+            QUnit.stop();
             z.hasClass('foo', function(el) {
                 numFound++;
                 ok(el.className.indexOf('foo') > -1, 'Callback function element parameter should always contain specified class');
-                if (numFound > 2) start();
+                if (numFound > 2) QUnit.start();
             });
             equals(numFound, x$('#style_tests').find('.foo').length, 'Should invoke callback function properly for every item with matching class');
         });
@@ -146,11 +142,17 @@ CoreTests.prototype.run = function () {
         }
     });
         test( 'Inserting html "after"', function() {
-            expect(2);
+            expect(5);
             h.html('after', '<div>after</div>');
             equals(h[0].nextSibling.innerHTML, 'after', 'New next sibling element should be created');
             h.after('<div>after again</div>');
             equals(h[0].nextSibling.innerHTML, 'after again', 'Using shortcut .after(), new next sibling element should be created');
+            equals(h[0].nextSibling.nextSibling.innerHTML, 'after', 'Doesn\'t destroy sibling nodes.');
+            var inputs = x$('input');
+            h.after(inputs);
+            equals(h[0].nextSibling, inputs[inputs.length-1], 'Using xui collection as parameter, next sibling to element is last element in parameter collection.');
+            h.after(inputs[0]);
+            equals(h[0].nextSibling, inputs[0], 'Using HTMLElement as parameter, next sibling to element is passed in element.');
         });
 
         test( 'Inserting html "before"', function() {
@@ -194,6 +196,21 @@ CoreTests.prototype.run = function () {
               '<a href="#3" class="link_o">three link</a>';
             bottom.html('bottom', numerousItems);
             //equals(bottom[0].childNodes.length, numOriginalElements + 3, 'Should append numerous elements when passed as string');
+        });
+        test( 'Removing html elements via "remove"', function() {
+            expect(2);
+            var el = x$('#remove-me');
+            el.remove();
+            equals(document.getElementById('remove-me'), null, 'Element should not exist after calling remove()');
+            var eltwo = x$('#remove-me-2');
+            eltwo.html('remove');
+            equals(document.getElementById('remove-me-2'), null, 'Element should not exist after calling html("remove")');
+            try {
+                x$('#doesnt-exist').remove();
+                x$('#neither-does-this-one').html('remove');
+            } catch(e) {
+                ok(false, 'Should not trigger exception on empty xui collections.');
+            }
         });
         test( '.html()', function(){
             expect(4);
@@ -240,13 +257,15 @@ CoreTests.prototype.run = function () {
             x.xhr("helpers/example.html");
             equals(x[0].innerHTML.toLowerCase(), '<h1>this is a html partial</h1>', 'Should insert partial into element');
         });
-        asyncTest( 'Asynchronous XHRs', function() {
+        
+        test( 'Asynchronous XHRs', function() {
+            QUnit.stop();
             expect(2);
             x.xhr("helpers/example.html", {
                 callback:function() {
                     ok(true, 'Specified callback function should be triggered properly');
                     equals(x[0].innerHTML,'','Defined callback should override default behaviour of injecting response into innerHTML');
-                    start();
+                    QUnit.start();
                 }
             });
         });
@@ -270,19 +289,20 @@ CoreTests.prototype.run = function () {
                 x = null;
         }
     });
-        asyncTest( '.tween()', function() {
+        test( '.tween()', function() {
+            QUnit.stop();
             expect(2);
             x.tween({left:'100px'}, function() {
                 ok(true, 'Callback should be called following tween');
                 equals(x[0].style.left,'100px', 'Tweened property should be set to final value as specified in tween call');
-                start();
+                QUnit.start();
             });
         });
 
     // --
     /// event specs
     // --
-    module("Events", {
+    module("Events (event.js)", {
         setup:function() {
             // updated to create new element to reset events associated
             var div = document.createElement('div');
@@ -294,38 +314,42 @@ CoreTests.prototype.run = function () {
             x = null;
         }
     });
-        asyncTest('.on(event,function() { ... }) should bind anonymous function to selected element, and should be triggered by .fire(event) call', function () {
+        test('.on(event,function() { ... }) should bind anonymous function to selected element, and should be triggered by .fire(event) call', function () {
+            QUnit.stop();
             expect(2);
             x.on('click', function () {
                 ok(true, 'Click handler fired using fire("click") call');
                 this.innerHTML = 'firedclick';
                 equals(x[0].innerHTML, 'firedclick', 'Click handler function should have been able to modify innerHTML of element using "this" reference');
-                start();
+                QUnit.start();
             }).fire('click').un('click');
         });
 
-        asyncTest('.un(event) should unbind event handler from selected element', function () {
+        test('.un(event) should unbind event handler from selected element', function () {
+            QUnit.stop();
             expect(0);
             x.on('click', function () {
                 ok(false, 'Click handler should not be fired after calling .un(event)');
-                start();
+                QUnit.start();
             }).un('click').fire('click');
-            start();
+            QUnit.start();
         });
       
-        asyncTest('.on(event) should be able to bind a custom event', function () {
+       test('.on(event) should be able to bind a custom event', function () {
+            QUnit.stop();
             expect(1);
             x.on('brianisadonkey', function () {
                 ok(true, '"brianisadonkey" event handler should be called by .fire("brianisadonkey")');
-                start();
+                QUnit.start();
             }).fire('brianisadonkey').un('brianisadonkey');
         });
       
-        asyncTest('.un(event) doesn\'t interfere with other events registered on the element', function () {
+        test('.un(event) doesn\'t interfere with other events registered on the element', function () {
+            QUnit.stop();
             expect(1);
             x.on('custom', function () {
                 ok(true, '"custom" event handler should be called properly following "click" event unbinding and "custom" event firing');
-                start();
+                QUnit.start();
             });
             x.on('click', function () {
                 ok(false, '"click" event handler should not be called following "click" event unbinding and "custom" event firing');
@@ -342,15 +366,16 @@ CoreTests.prototype.run = function () {
             equals(fired, 3, 'Counter should be incremented by three different event handlers');
         });
       
-        asyncTest('Should be able to unbind specific events using .un(event, handler)', function () {
+        test('Should be able to unbind specific events using .un(event, handler)', function () {
+            QUnit.stop();
             expect(1);
             function one() {
                 ok(false, '.un(event, handler) should prevent function "handler" from being called');
-                start();
+                QUnit.start();
             }
             function two() {
                 ok(true, '.fire("click") should trigger the only registered event on element');
-                start();
+                QUnit.start();
             }
             x.on('click', one).on('click', two).un('click', one).fire('click');
         });
@@ -366,7 +391,8 @@ CoreTests.prototype.run = function () {
             equals(fired, 2);
         });
         
-        asyncTest('Should be able to create bespoke events', function () {
+        test('Should be able to create bespoke events', function () {
+            QUnit.stop();
             // note that teardown methods are needed - this is an early system
             expect(1);
             
@@ -385,7 +411,7 @@ CoreTests.prototype.run = function () {
             var fired = false;
             x.on('tripleclick', function () {
                 ok(true, 'tripleclick bespoke event fired on element');
-                start();
+                QUnit.start();
             }).fire('click').fire('click').fire('click');
         });
         
