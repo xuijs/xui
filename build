@@ -53,29 +53,6 @@ if minify
 end
 
 if docs
-  XUI_DIR = File.expand_path(File.dirname(__FILE__))
-  DOC_DIR = File.join(XUI_DIR, 'doc')
-  SRC_DIR = File.join(XUI_DIR, 'src')
-
-  FileUtils.rm_r(DOC_DIR) if File.exists?(DOC_DIR)
-  FileUtils.mkdir(DOC_DIR)
-
-  FileUtils.cd(SRC_DIR) do
-    files = Dir['**/*.js'].reject{ |f| (f =~ /ie\//) != nil }.join(' ')
-    `jodoc --output ../doc #{files}`
-  end
-
-  # Generate HTML
-  puts "Generating documentation as HTML..."
-  generate_documentation(HTML_DIR)
-
-  # Generate EJS
-  puts "Generating documentation as EJS..."
-  generate_documentation(EJS_DIR)
-  html_to_ejs(EJS_DIR)
-end
-
-if docs
   XUI_DIR  = File.expand_path(File.dirname(__FILE__))
   SRC_DIR  = File.join(XUI_DIR, 'src')
   DOC_DIR  = File.join(XUI_DIR, 'doc')
