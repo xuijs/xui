@@ -63,6 +63,7 @@ if docs
   JODOC_DIR = File.join(PKG_DIR,   'jodoc')
   JODOC_GIT = File.join(JODOC_DIR, '.git')
 
+  JODOC_BIN    = File.join(JODOC_DIR, 'jodoc')
   MARKDOWN_BIN = File.join(UTIL_DIR, 'markdown', 'Markdown.pl')
 
   def git_jodoc
@@ -81,7 +82,7 @@ if docs
 
     FileUtils.cd(SRC_DIR) do
       files = Dir['**/*.js'].reject{ |f| (f =~ /ie\//) != nil }.join(' ')
-      `jodoc --title "XUI API Reference" --markdown #{MARKDOWN_BIN} --output #{output_directory} #{files}`
+      `#{JODOC_BIN} --title "XUI API Reference" --markdown #{MARKDOWN_BIN} --output #{output_directory} #{files}`
     end
   end
 
