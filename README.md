@@ -27,23 +27,9 @@ Generating Documentation
 
 The documentation is generated from the inline comments in the source-code. [joDoc](https://github.com/davebalmer/jodoc) uses the comments to generate a set of HTML files.
 
-### Install joDoc ###
+To generate the documentation, you will need _Ruby_, _Perl_, and _Git_:
 
-    $ git clone http://github.com/davebalmer/joDoc.git
-    $ export PATH=$PATH:~/path/to/joDoc/
-
-You should add the export statement to `~/.bashrc` or `~/.profile` (or whatever you use), so that it exists across terminal sessions.
-
-### Install markdown ###
-
-    # Use your package manager to install the markdown CLI
-    brew install markdown
-    port install markdown
-    aptitude install markdown
-
-### Generate the XUI documentation ###
-
-    ./build --doc
+    ./build --generate-docs
 
 Source Tree
 -----------

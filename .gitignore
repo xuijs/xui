@@ -9,4 +9,4 @@ lib/*
 *.rpmsave
 *.rej
 Thumbs.db
-	
+packages/jodoc
