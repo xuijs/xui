@@ -53,34 +53,28 @@ if minify
 end
 
 if docs
-  XUI_DIR = File.expand_path(File.dirname(__FILE__))
-  DOC_DIR = File.join(XUI_DIR, 'doc')
-  SRC_DIR = File.join(XUI_DIR, 'src')
+  PREFIX    = File.expand_path(File.dirname(__FILE__))
+  DOC_DIR   = File.join(PREFIX,    'doc')
+  PKG_DIR   = File.join(PREFIX,    'packages')
+  SRC_DIR   = File.join(PREFIX,    'src')
+  UTIL_DIR  = File.join(PREFIX,    'util')
+  HTML_DIR  = File.join(DOC_DIR,   'html')
+  EJS_DIR   = File.join(DOC_DIR,   'ejs')
+  JODOC_DIR = File.join(PKG_DIR,   'jodoc')
+  JODOC_GIT = File.join(JODOC_DIR, '.git')
 
-  FileUtils.rm_r(DOC_DIR) if File.exists?(DOC_DIR)
-  FileUtils.mkdir(DOC_DIR)
+  JODOC_BIN    = File.join(JODOC_DIR, 'jodoc')
+  MARKDOWN_BIN = File.join(UTIL_DIR, 'markdown', 'Markdown.pl')
 
-  FileUtils.cd(SRC_DIR) do
-    files = Dir['**/*.js'].reject{ |f| (f =~ /ie\//) != nil }.join(' ')
-    `jodoc --output ../doc #{files}`
+  def git_jodoc
+    if (File.directory?(JODOC_GIT))
+      puts "Updating joDoc..."
+      `git --git-dir=#{JODOC_GIT} pull -q origin master`
+    else
+      puts "Cloning joDoc from GitHub..."
+      `git clone git://github.com/davebalmer/joDoc.git #{JODOC_DIR}`
+    end
   end
-
-  # Generate HTML
-  puts "Generating documentation as HTML..."
-  generate_documentation(HTML_DIR)
-
-  # Generate EJS
-  puts "Generating documentation as EJS..."
-  generate_documentation(EJS_DIR)
-  html_to_ejs(EJS_DIR)
-end
-
-if docs
-  XUI_DIR  = File.expand_path(File.dirname(__FILE__))
-  SRC_DIR  = File.join(XUI_DIR, 'src')
-  DOC_DIR  = File.join(XUI_DIR, 'doc')
-  HTML_DIR = File.join(DOC_DIR, 'html')
-  EJS_DIR  = File.join(DOC_DIR, 'ejs')
 
   def generate_documentation(output_directory)
     output_directory = File.expand_path(output_directory)
@@ -88,7 +82,7 @@ if docs
 
     FileUtils.cd(SRC_DIR) do
       files = Dir['**/*.js'].reject{ |f| (f =~ /ie\//) != nil }.join(' ')
-      `jodoc --title "XUI API Reference" --output #{output_directory} #{files}`
+      `#{JODOC_BIN} --title "XUI API Reference" --markdown #{MARKDOWN_BIN} --output #{output_directory} #{files}`
     end
   end
 
@@ -116,23 +110,27 @@ if docs
       # Alter file content
       Dir['**/*'].each do |filename|
         data = File.read(filename)
-
         # Only save content of <body>
         data.sub!(/.*<body>(.*)<\/body>.*/mi, "\\1")
         # Update links to each filename
         rename.each { |o, n| data.gsub!(o, File.basename(n, '.ejs')) }
-
         File.open(filename, 'w') { |file| file.write(data) }
       end
     end
   end
 
+  # Prep-work to generate the documentation
+  git_jodoc
   FileUtils.rm_r(DOC_DIR) if File.exists?(DOC_DIR)
 
   # Generate HTML
+  puts "Generating HTML documentation..."
   generate_documentation(HTML_DIR)
 
   # Generate EJS
+  puts "Generating EJS documentation..."
   generate_documentation(EJS_DIR)
   html_to_ejs(EJS_DIR)
+  
+  puts "Generated documentation at #{DOC_DIR}"
 end

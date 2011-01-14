@@ -71,9 +71,9 @@ CoreTests.prototype.run = function () {
     });
         test( '.getStyle()', function(){
             expect(3);
-            var style = e.getStyle('background-color').toLowerCase();
+            var style = e.getStyle('background-color')[0].toLowerCase();
             ok(style == 'rgb(0, 0, 255)' || style == '#0000ff', 'Should return proper style via CSS style name');
-            var styletwo = e.getStyle('backgroundColor').toLowerCase();
+            var styletwo = e.getStyle('backgroundColor')[0].toLowerCase();
             ok(styletwo == 'rgb(0, 0, 255)' || styletwo == '#0000ff', 'Should return proper style via DOM style name');
             QUnit.stop();
             e.getStyle('background-color', function(v){
