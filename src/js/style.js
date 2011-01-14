@@ -73,13 +73,15 @@ xui.extend({
             // return document.defaultView.getComputedStyle(el, "").getPropertyValue(p.replace(/([A-Z])/g, "-$1").toLowerCase());
             return document.defaultView.getComputedStyle(el, "").getPropertyValue(p.replace(/[A-Z]/g, function(m) { return '-'+m.toLowerCase(); }));
         }
-        return (callback === undefined) ?
-        
-            s(this[0], prop) :
-            
+        if (callback === undefined) {
+        	var styles = [];
+            this.each(function(el) {styles.push(s(el, prop))});
+ 			return styles;
+        } else {
             this.each(function(el) {
                 callback(s(el, prop));
             });
+		}
     },
 
 /**
