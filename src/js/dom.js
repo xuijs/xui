@@ -2,52 +2,52 @@
 	DOM
 	===
 
-	Set of methods used for manipulating the Document Object Model (DOM).
+	Set of methods for manipulating the Document Object Model (DOM).
 
 */
 xui.extend({
 /**
 	html
-	---
+	----
 
-	For manipulating HTML in the DOM.
+	Manipulates HTML in the DOM.
 
 	### syntax ###
 
-		x$(window).html( location, html );
+		x$( window ).html( location, html );
 
-	or this method will accept just an html fragment with a default behavior of inner.
+	or this method will accept just a HTML fragment with a default behavior of inner:
 
-		x$(window).html( html );
+		x$( window ).html( html );
 
-	or you can use shorthand syntax by using the location name argument (see below) as the function name.
+	or you can use shorthand syntax by using the location name argument as the function name:
 
-		x$(window).outer( html );
-		x$(window).before( html );
+		x$( window ).outer( html );
+		x$( window ).before( html );
 
 	### arguments ###
 
-	- location:string can be one of: inner, outer, top, bottom, remove, before or after.
-	- html:string any string of html markup or an HTMLElement.
+	- location `String` can be one of: _inner_, _outer_, _top_, _bottom_, _remove_, _before_ or _after_.
+	- html `String` is a string of HTML markup or a `HTMLElement`.
 
 	### example ###
 
-		x$('#foo').html( 'inner', '<strong>rock and roll</strong>' );
-		x$('#foo').html( 'outer', '<p>lock and load</p>' );
-		x$('#foo').html( 'top', '<div>bangers and mash</div>');
-		x$('#foo').html( 'bottom','<em>mean and clean</em>');
-		x$('#foo').html( 'remove');
-		x$('#foo').html( 'before', '<p>some warmup html</p>');
-		x$('#foo').html( 'after', '<p>more html!</p>');
+		x$('#foo').html('inner', '<strong>rock and roll</strong>');
+		x$('#foo').html('outer', '<p>lock and load</p>');
+		x$('#foo').html('top',   '<div>bangers and mash</div>');
+		x$('#foo').html('bottom','<em>mean and clean</em>');
+		x$('#foo').html('remove');
+		x$('#foo').html('before', '<p>some warmup html</p>');
+		x$('#foo').html('after',  '<p>more html!</p>');
 
 	or
 
-		x$('#foo').html( '<p>sweet as honey</p>' );
-		x$('#foo').outer( '<p>free as a bird</p>' );
-		x$('#foo').top( '<b>top of the pops</b>' );
-		x$('#foo').bottom( '<span>bottom of the barrel</span>' );
-		x$('#foo').before( '<pre>first in line</pre>' );
-		x$('#foo').after( '<marquee>better late than never</marquee>' );
+		x$('#foo').html('<p>sweet as honey</p>');
+		x$('#foo').outer('<p>free as a bird</p>');
+		x$('#foo').top('<b>top of the pops</b>');
+		x$('#foo').bottom('<span>bottom of the barrel</span>');
+		x$('#foo').before('<pre>first in line</pre>');
+		x$('#foo').after('<marquee>better late than never</marquee>');
 */
     html: function(location, html) {
         clean(this);
@@ -111,26 +111,28 @@ xui.extend({
 
 /**
 	attr
-	---
+	----
 
-	For getting or setting attributes on elements.
+	Gets or sets attributes on elements.
 
-	### syntax (and examples) ###
+	### syntax ###
 
-		x$(window).attr( attribute, value );
-
-	To retrieve an attribute value, simply don't provide the optional second parameter:
-
-		x$('.someClass').attr( 'class' );
-
-	To set an attribute, use both parameters:
-
-		x$('.someClass').attr( 'disabled', 'disabled' );
+		x$( window ).attr( attribute, value );
 
 	### arguments ###
 
-	- attribute:string the name of the element's attribute to set or retrieve.
-	- html:string if retrieving an attribute value, don't specify this parameter. Otherwise, this is the value to set the attribute to.
+	- attribute `String` is the name of HTML attribute to get or set.
+	- value `Varies` is the value to set the attribute to. Do not use to get the value of attribute _(optional)_.
+
+	### example ###
+
+	To get an attribute value, simply don't provide the optional second parameter:
+
+		x$('.someClass').attr('class');
+
+	To set an attribute, use both parameters:
+
+		x$('.someClass').attr('disabled', 'disabled');
 */
     attr: function(attribute, val) {
         if (arguments.length == 2) {
