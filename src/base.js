@@ -1,6 +1,6 @@
 /**
-	Base
-	====
+	Basics
+	======
 
 	Includes functionality used to manipulate the xui object collection.
 
