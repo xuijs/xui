@@ -2,7 +2,7 @@
 	Style
 	=====
 
-	Anything related to how things look. Usually, this is CSS.
+	Everything related to appearance. Usually, this is CSS.
 
 */
 function hasClass(el, className) {
@@ -22,20 +22,21 @@ xui.extend({
 	setStyle
 	--------
 
-	Sets a single CSS property to a new value.
+	Sets the value of a single CSS property.
 
 	### syntax ###
 
-		x$(selector).setStyle(property, value);
+		x$( selector ).setStyle( property, value );
 
 	### arguments ###
 
-	- property:string the property to modify
-	- value:string the property value to set
+	- property `String` is the name of the property to modify.
+	- value `String` is the new value of the property.
 
 	### example ###
 
-		x$('.txt').setStyle('color', '#000');
+		x$('.flash').setStyle('color', '#000');
+		x$('.button').setStyle('backgroundColor', '#EFEFEF');
 */
     setStyle: function(prop, val) {
         prop = prop.replace(/\-[a-z]/g,function(m) { return m[1].toUpperCase(); });
@@ -48,22 +49,25 @@ xui.extend({
 	getStyle
 	--------
 
-	Retuns a single CSS property. Can also invoke a callback to perform more specific processing tasks related to the property value.
+	Retuns the value of a single CSS property. Can also invoke a callback to perform more specific processing tasks related to the property value.
 
 	### syntax ###
 
-		x$(selector).getStyle(property, callback);
+		x$( selector ).getStyle( property, callback );
 
 	### arguments ###
 
-	- property:string a css key (for example, border-color NOT borderColor)
-	- callback:function (optional) a method to call on each element in the collection 
+	- property `String` is the name of the CSS property to get.
+	- callback `Function` is called on each element in the collection and passed the property _(optional)_.
 
 	### example ###
 
 		x$('ul#nav li.trunk').getStyle('font-size');
+		x$('ul#nav li.trunk').getStyle('fontSize');
 		
-		x$('a.globalnav').getStyle( 'background', function(prop){ prop == 'blue' ? 'green' : 'blue' });
+		x$('ul#nav li.trunk').getStyle('backgroundColor', function(prop) {
+		    return (prop === 'blue') ? 'green' : 'blue';
+		});
 */
     getStyle: function(prop, callback) {
         // shortcut getComputedStyle function
@@ -88,15 +92,15 @@ xui.extend({
 	addClass
 	--------
 
-	Adds the classname to all the elements in the collection.
+	Adds a class to all of the elements in the collection.
 
 	### syntax ###
 
-		$(selector).addClass(className);
+		$( selector ).addClass( className );
 
 	### arguments ###
 
-	- className:string the name of the CSS class to apply
+	- className `String` is the name of the CSS class to add.
 
 	### example ###
 
@@ -114,21 +118,32 @@ xui.extend({
 	hasClass
 	--------
 
-	Checks to see if classname is one the element. If a callback isn't passed, hasClass expects only one element in collection - but should it?
+	Checks if the class is on the element.
 
 	### syntax ###
 
-		$(selector).hasClass('className');
-		$(selector).hasClass('className', function(element) {});	 
+		$( selector ).hasClass( className, fn );
 
 	### arguments ###
 
-	- className:string the name of the CSS class to apply
+	- className `String` is the name of the CSS class to find.
+	- fn `Function` is a called for each element found and passed the element _(optional)_.
+
+			// `element` is the HTMLElement that has the class
+			function(element) {
+			    console.log(element);
+			}
 
 	### example ###
 
-		$('#foo').hasClass('awesome'); // returns true or false
-		$('.foo').hasClass('awesome',function(e){}); // returns XUI object
+		// returns true or false
+		$('#foo').hasClass('awesome');
+		
+		// returns true or false,
+		// and calls the function with each element
+		$('.foo').hasClass('awesome', function(element) {
+		    console.log('Hey, I found: ' + element);
+		});
 */
     hasClass: function(className, callback) {
         var self = this;
@@ -148,19 +163,19 @@ xui.extend({
 	removeClass
 	-----------
 
-	Removes the classname from all the elements in the collection.
+	Removes the class from all elements in the collection.
 
 	### syntax ###
 
-		x$(selector).removeClass(className);
+		x$( selector ).removeClass( className );
 
 	### arguments ###
 
-	- className:string the name of the CSS class to remove.
+	- className `String` is the name of the CSS class to remove.
 
 	### example ###
 
-		x$('.bar').removeClass('awesome');
+		x$('.foo').removeClass('awesome');
 */
     removeClass: function(className) {
         if (className === undefined) {
@@ -181,19 +196,19 @@ xui.extend({
 	css
 	---
 
-	Set a number of CSS properties at once.
+	Set multiple CSS properties at once.
 
 	### syntax ###
 
-		x$(selector).css(object);
+		x$( selector ).css( properties );
 
 	### arguments ###
 
-	- an object literal of css key/value pairs to set.
+	- properties `Object` is a JSON object that defines the property name/value pairs to set.
 
 	### example ###
 
-		x$('h2.fugly').css({ backgroundColor:'blue', color:'white', border:'2px solid red' });
+		x$('.foo').css({ backgroundColor:'blue', color:'white', border:'2px solid red' });
 */
     css: function(o) {
         for (var prop in o) {
