@@ -2,7 +2,7 @@
 	Event
 	=====
 
-	A good old fashioned yet new skool event handling system.
+	A good old fashioned events with new skool handling. Shortcuts exist for:
 
 	- click
 	- load
@@ -25,27 +25,29 @@ xui.extend({
 
 	Registers a callback function to a DOM event on the element collection.
 
-	For more information see:
-
-	- http://developer.apple.com/webapps/docs/documentation/AppleApplications/Reference/SafariWebContent/HandlingEvents/chapter_7_section_1.html#//apple_ref/doc/uid/TP40006511-SW1
-
 	### syntax ###
 
-		x$('button').on( 'click', function(e){ alert('hey that tickles!') });
+		x$( 'button' ).on( type, fn );
 
-	or...
+	or
 
-		x$('a.save').click(function(e){ alert('tee hee!') });
+		x$( 'button' ).click( fn );
 
 	### arguments ###
 
-	- type:string the event to subscribe to click|load|etc
-	- fn:function a callback function to execute when the event is fired
+	- type `String` is the event to subscribe (e.g. _load_, _click_, _touchstart_, etc).
+	- fn `Function` is a callback function to execute when the event is fired.
 
 	### example ###
 
-		x$(window).load(function(e){
-		  x$('.save').touchstart( function(evt){ alert('tee hee!') }).css(background:'grey');
+		x$( 'button' ).on( 'click', function(e) {
+		    alert('hey that tickles!');
+		});
+
+	or
+
+		x$(window).load(function(e) {
+		  x$('.save').touchstart( function(evt) { alert('tee hee!'); }).css(background:'grey');
 		});
 */
     on: function(type, fn, details) {
@@ -77,30 +79,40 @@ xui.extend({
 
 	### syntax ###
 
-		x$('button').un('click', specificCallback);
+	Unregister the given function, for the given type, on all button elements:
 
-	The above unregisters only the `specificCallback` function on all button elements.
+		x$( 'button' ).un( type, fn );
 
-		x$('button').un('click');
+	Unregisters all callbacks of the given type, on all button elements:
 
-	The above unregisters all callbacks assigned to all button elements.
+		x$( 'button' ).un( type );
 
 	### arguments ###
 
-	- type:string the event to unsubscribe from click|load|etc
-	- fn:function callback function to unsubscribe (optional)
+	- type `String` is the event to unsubscribe (e.g. _load_, _click_, _touchstart_, etc).
+	- fn `Function` is the callback function to unsubscribe _(optional)_.
 
 	### example ###
 
-		x$('button').on('click',function(){alert('hi!');}); // callback subscribed to click.
-		x$('button').un('click'); // No more callbacks fired on click of button elements!
+		// First, create a click event that display an alert message
+		x$('button').on('click', function() {
+		    alert('hi!');
+		});
+		
+		// Now unsubscribe all functions that response to click on all button elements
+		x$('button').un('click');
 
-	or ...
+	or
 
-		var funk = function() { alert('yo!'); }
-		x$('button').on('click', funk); // callback subscribed to click.
-		x$('button').on('click', function(){ alert('hi!'); });
-		x$('button').un('click', funk); // When buttons are clicked, the 'hi!' alert will pop up but not the 'yo!' alert.
+		var greeting = function() { alert('yo!'); };
+		
+		x$('button').on('click', greeting);
+		x$('button').on('click', function() {
+		    alert('hi!');
+		});
+		
+		// When any button is clicked, the 'hi!' message will fire, but not the 'yo!' message.
+		x$('button').un('click', greeting);
 */
     un: function(type, fn) {
         return this.each(function (el) {
@@ -125,23 +137,22 @@ xui.extend({
 	fire
 	----
 
-	Fires a specific event on the xui collection.
+	Triggers a specific event on the xui collection.
 
 	### syntax ###
 
-		x$('button').fire('click', {some:'data'});
-
-	Fires an event with some specific data attached to the event's `data` property.
+		x$( selector ).fire( type, data );
 
 	### arguments ###
 
-	- type:string the event to fire, click|load|etc
-	- data:object JavaScript object to attach to the event's `data` property.
+	- type `String` is the event to fire (e.g. _load_, _click_, _touchstart_, etc).
+	- data `Object` is a JSON object to use as the event's `data` property.
 
 	### example ###
 
-        x$('button#reset').fire('click', {died:true});
-        x$('.target').fire('touchstart');
+		x$('button#reset').fire('click', { died:true });
+		
+		x$('.target').fire('touchstart');
 */
     fire: function (type, data) {
         return this.each(function (el) {
