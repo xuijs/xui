@@ -2,7 +2,7 @@
 	XHR
 	===
 
-	Remoting methods and utils.
+	Everything related to remote network connections.
 
  */
 xui.extend({	
@@ -10,28 +10,43 @@ xui.extend({
 	xhr
 	---
 
-	The classic Xml Http Request sometimes also known as the Greek God: Ajax. Not to be confused with AJAX the cleaning agent.
-	This method has a few new tricks. It is always invoked on an element collection and follows the identical behaviour as the
-	`html` method. If there no callback is defined the response text will be inserted into the elements in the collection.
+	The classic `XMLHttpRequest` sometimes also known as the Greek God: _Ajax_. Not to be confused with _AJAX_ the cleaning agent.
+
+	### detail ###
+
+	This method has a few new tricks.
+
+	It is always invoked on an element collection and uses the behaviour of `html`.
+
+	If there no callback, then the `responseText` will be inserted into the elements in the collection.
 
 	### syntax ###
 
-		xhr(location, url, options)
+		x$( selector ).xhr( location, url, options )
 
-	or this method will accept just a url with a default behavior of inner...
+	or accept a url with a default behavior of inner:
 
-		xhr(url, options);
+		x$( selector ).xhr( url, options );
 
-	### options ###
+	or accept a url with a callback:
+	
+		x$( selector ).xhr( url, fn );
 
-	- method {String} [get|put|delete|post] Defaults to 'get'.
-	- async {Boolean} Asynchronous request. Defaults to false.
-	- data {String} A url encoded string of parameters to send.
-	- callback {Function} Called on 200 status (success)
+	### arguments ###
+
+	- location `String` is the location to insert the `responseText`. See `html` for values.
+	- url `String` is where to send the request.
+	- fn `Function` is called on status 200 (i.e. sucess callback).
+	- options `Object` is a JSON object with one or more of the following:
+		- method `String` can be _get_, _put_, _delete_, _post_. Default is _get_.
+		- async `Boolean` enables an asynchronous request. Defaults to _false_.
+		- data `String` is a url encoded string of parameters to send.
+		- callback `Function` is called on status 200 (i.e. success callback).
 
 	### response ###
 
-	- The response available to the callback function as 'this', it is not passed in.
+	- The response is available to the callback function as `this`.
+	- The response is not passed into the callback.
 	- `this.reponseText` will have the resulting data from the file.
 
 	### example ###
@@ -45,11 +60,21 @@ xui.extend({
 
 	or
 
+		// same as using 'inner'
 		x$('#status').xhr('/status.html');
 
-		x$('#left-panel').xhr('/panel', {callback:function(){ alert("All Done!") }});
+		// define a callback and enable async execution
+		x$('#left-panel').xhr('/panel', {
+		    async: true,
+		    callback: function() {
+		        alert("The response is " + this.responseText);
+		    }
+		});
 
-		x$('#left-panel').xhr('/panel', function(){ alert(this.responseText) }); 
+		// define a callback with the shorthand syntax
+		x$('#left-panel').xhr('/panel', function() {
+		    alert("The response is " + this.responseText);
+		});
 */
     xhr:function(location, url, options) {
 
