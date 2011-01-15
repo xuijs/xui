@@ -2,7 +2,7 @@
 	Base
 	====
 
-	Includes functionality used to manipulate the xui object collection; things like iteration and set operations are included here.
+	Includes functionality used to manipulate the xui object collection.
 
 */
 var undefined,
@@ -51,35 +51,33 @@ xui.fn = xui.prototype = {
 	extend
 	------
 
-	Allows extension of xui's prototype with the members/methods of the provided object.
+	Extends XUI's prototype with the members of another object.
 
 	### syntax ###
 
 		xui.extend( object );
 
-	Call extend on the xui object to extend all xui instances with functionality and/or members of the passed-in object.
-
 	### arguments ###
 
-	- object:object a JavaScript object whose members will be incorporated into xui's prototype
+	- object `Object` contains the members that will be added to XUI's prototype.
  
 	### example ###
 
 	Given:
 
-		var thing = {
-		    first : function() { return this[ 0 ]; },
-		    last : function() { return this[ this.length - 1 ]; }
+		var sugar = {
+		    first: function() { return this[0]; },
+		    last:  function() { return this[this.length - 1]; }
 		}
 
-	We can extend xui's prototype with these methods by using `extend`:
+	We can extend xui's prototype with members of `sugar` by using `extend`:
 
-		xui.extend( thing );
+		xui.extend(sugar);
 
 	Now we can use `first` and `last` in all instances of xui:
 
-		var f = x$( '.someClass' ).first();
-		var l = x$( '.differentClass' ).last();
+		var f = x$('.button').first();
+		var l = x$('.notice').last();
 */
     extend: function(o) {
         for (var i in o) {
@@ -91,16 +89,16 @@ xui.fn = xui.prototype = {
 	find
 	----
 
-	Finds matching elements based on a query string. The global xui entry `x$` function is a reference to the `find` function.
+	Find the elements that match a query string. `x$` is an alias for `find`.
 
 	### syntax ###
 
-		x$(window).find( selector [, context] );
+		x$( window ).find( selector, context );
 
 	### arguments ###
 
-	- selector:string a CSS selector string to match elements to.
-	- context:HTMLElement an html element to use as the "root" element to search from.
+	- selector `String` is a CSS selector that will query for elements.
+	- context `HTMLElement` is the parent element to search from _(optional)_.
  
 	### example ###
 
@@ -115,9 +113,9 @@ xui.fn = xui.prototype = {
 		    <li id="four">4</li>
 		</ul>
 
-	We can select only specific list items by using `find`, as opposed to selecting off the document root:
+	We can select list items using `find`:
 
-		x$('li'); // returns all four list item elements.
+		x$('li');                 // returns all four list item elements.
 		x$('#second').find('li'); // returns list items "three" and "four"
 */
     find: function(q, context) {
@@ -178,7 +176,7 @@ xui.fn = xui.prototype = {
 
 	### syntax ###
 
-		x$(window).set( array );
+		x$( window ).set( array );
 */
     set: function(elements) {
         var ret = xui();
@@ -190,20 +188,18 @@ xui.fn = xui.prototype = {
 
 /**
 	reduce
-	---
+	------
 
 	Reduces the set of elements in the xui object to a unique set.
 
 	### syntax ###
 
-		x$(someSelector).reduce( [ elements [, toIndex ]] );
-
-	The elements parameter is optional - if not specified, will reduce the elements in the current xui object.
+		x$( window ).reduce( elements, index );
 
 	### arguments ###
 
-	- elements:Array an array of elements to reduce (optional)
-	- toIndex:Number last index of elements to include in the reducing operation.
+	- elements `Array` is an array of elements to reduce _(optional)_.
+	- index `Number` is the last array index to include in the reduction. If unspecified, it will reduce all elements _(optional)_.
 */
     reduce: function(elements, b) {
         var a = [],
@@ -221,31 +217,29 @@ xui.fn = xui.prototype = {
 	has
 	---
 
-	Has modifies the elements array and returns all the elements that match (has) a CSS selector.
+	Returns the elements that match a given CSS selector.
 
 	### syntax ###
 
-		x$(someSelector).has( query );
-
-	Behind the scenes, actually calls the filter method.
+		x$( window ).has( selector );
 
 	### arguments ###
 
-	- query:string a CSS selector that will match all children of originally-selected xui collection
+	- selector `String` is a CSS selector that will match all children of the xui collection.
 
 	### example ###
 
-	Given
+	Given:
 
 		<div>
-		    <div class="gotit">these ones</div>
-		    <div class="gotit">have an extra class</div>
+		    <div class="round">Item one</div>
+		    <div class="round">Item two</div>
 		</div>
 	
-	We can use xui like so
+	We can use `has` to select specific objects:
 
-		var divs = x$('div'); // we've got all four divs from above.
-		var someDivs = divs.has('.gotit'); // we've now got only the two divs with the class
+		var divs    = x$('div');          // got all three divs.
+		var rounded = divs.has('.round'); // got two divs with the class .round
 */
      has: function(q) {
          var list = xui(q);
@@ -258,28 +252,32 @@ xui.fn = xui.prototype = {
              return found;
          });
      },
+
 /**
 	filter
 	------
 
-	Both an internal utility function, but also allows developers to extend xui using custom filters
+	Extend XUI with custom filters. This is an interal utility function, but is also useful to developers.
 
 	### syntax ###
 
-		x$(someSelector).filter( functionHandle );
-
-	The `functionHandle` function will get invoked with `this` being the element being iterated on,
-	and the index passed in as a parameter.
+		x$( window ).filter( fn );
 
 	### arguments ###
 
-	- functionHandle:Function a function reference that evaluates to true/false, determining which elements get included in the xui collection.
+	- fn `Function` is called for each element in the XUI collection.
+
+	        // `index` is the array index of the current element
+	        function( index ) {
+	            // `this` is the element iterated on
+	            // return true to add element to new XUI collection
+	        }
 
 	### example ###
 
-	Perhaps we'd want to filter input elements that are disabled:
+	Filter all the `<input />` elements that are disabled:
 
-		x$('input').filter(function(i) {
+		x$('input').filter(function(index) {
 		    return this.checked;
 		});
 */
@@ -294,29 +292,31 @@ xui.fn = xui.prototype = {
 	not
 	---
 
-	Not modifies the elements array and returns all the elements that DO NOT match a CSS Query - the opposite of has
+	The opposite of `has`. It modifies the elements and returns all of the elements that do __not__ match a CSS query.
 
 	### syntax ###
 
-		x$(someSelector).not( someOtherSelector );
+		x$( window ).not( selector );
 
 	### arguments ###
 
-	- someOtherSelector:string a CSS selector that elements should NOT match to.
+	- selector `String` a CSS selector for the elements that should __not__ be matched.
 
 	### example ###
 
-	Given
+	Given:
 
 		<div>
-		    <div class="gotit">these ones</div>
-		    <div class="gotit">have an extra class</div>
+		    <div class="round">Item one</div>
+		    <div class="round">Item two</div>
+		    <div class="square">Item three</div>
+		    <div class="shadow">Item four</div>
 		</div>
 
-	We can use xui like so
+	We can use `not` to select objects:
 
-		var divs = x$('div'); // we've got all four divs from above.
-		var someDivs = divs.not('.gotit'); // we've now got only the two divs _without_ the class "gotit"	
+		var divs     = x$('div');          // got all four divs.
+		var notRound = divs.not('.round'); // got two divs with classes .square and .shadow
 */
     not: function(q) {
         var list = slice(this);
@@ -333,21 +333,28 @@ xui.fn = xui.prototype = {
 	each
 	----
 
-	Element iterator (over the xui collection).
+	Element iterator for an XUI collection.
 
 	### syntax ###
 
-		x$(window).each( functionHandle )
+		x$( window ).each( fn )
 
 	### arguments ###
 
-	- functionHandle:Function callback function that will execute with each element being passed in as the `this` object and first parameter to callback
+	- fn `Function` callback that is called once for each element.
+
+		    // `element` is the current element
+		    // `index` is the element index in the XUI collection
+		    // `xui` is the XUI collection.
+		    function( element, index, xui ) {
+		        // `this` is the current element
+		    }
 
 	### example ###
 
-		x$(someSelector).each(function(element, index, xui) {
+		x$('div').each(function(element, index, xui) {
 		    alert("Here's the " + index + " element: " + element);
-		});	
+		});
 */
     each: function(fn) {
         // we could compress this by using [].forEach.call - but we wouldn't be able to support
