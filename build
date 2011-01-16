@@ -20,12 +20,14 @@ end
 profile = "core"
 minify = false
 docs = false
+extra = false
 
 ARGV.each do |arg|
   case arg
   when "--minify" then minify = true
   when /^profile=(.*)$/ then profile = $1
   when "--generate-docs" then docs = true
+  when /^cat=(.*)$/ then extra = $1
   when "--help" then show_usage
   else
       STDERR.puts("Invalid parameter '#{arg}'") unless arg == "--help"
@@ -44,6 +46,10 @@ File.unlink(target) if File.exist?(target)
 content = hash["include"].map {|library| File.read(library + ".js") }
 
 File.open(target, "w") {|op| op.puts content }
+
+if extra
+  File.open(target, "a") {|op| op.puts File.read(extra)}
+end
 
 if minify
   puts "Minify-ing..."
