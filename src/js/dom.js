@@ -121,7 +121,7 @@ xui.extend({
 	attr
 	----
 
-	Gets or sets attributes on elements.
+	Gets or sets attributes on elements. If getting, returns an array of attributes matching the xui element collection's indices.
 
 	### syntax ###
 
@@ -151,7 +151,6 @@ xui.extend({
             var attrs = [];
             this.each(function(el) {
                 var val = el.getAttribute(attribute);
-                if (val != null)
                 attrs.push(val);
             });
             return attrs;
