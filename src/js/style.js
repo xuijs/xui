@@ -170,7 +170,7 @@ xui.extend({
 	removeClass
 	-----------
 
-	Removes the class from all elements in the collection.
+	Removes the specified class from all elements in the collection. If no class is specified, removes all classes from the collection.
 
 	### syntax ###
 
@@ -178,7 +178,7 @@ xui.extend({
 
 	### arguments ###
 
-	- className `String` is the name of the CSS class to remove.
+	- className `String` is the name of the CSS class to remove. If not specified, then removes all classes from the matched elements. _(optional)_
 
 	### example ###
 
