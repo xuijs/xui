@@ -49,7 +49,8 @@ xui.extend({
 	getStyle
 	--------
 
-	Retuns the value of a single CSS property. Can also invoke a callback to perform more specific processing tasks related to the property value.
+	Returns the value of a single CSS property. Can also invoke a callback to perform more specific processing tasks related to the property value.
+	Please note that the return type is always an Array of strings. Each string corresponds to the CSS property value for the element with the same index in the xui collection.
 
 	### syntax ###
 
@@ -61,12 +62,17 @@ xui.extend({
 	- callback `Function` is called on each element in the collection and passed the property _(optional)_.
 
 	### example ###
-
-		x$('ul#nav li.trunk').getStyle('font-size');
-		x$('ul#nav li.trunk').getStyle('fontSize');
+        <ul id="nav">
+            <li class="trunk" style="font-size:12px;background-color:blue;">hi</li>
+            <li style="font-size:14px;">there</li>
+        </ul>
+        
+		x$('ul#nav li.trunk').getStyle('font-size'); // returns ['12px']
+		x$('ul#nav li.trunk').getStyle('fontSize'); // returns ['12px']
+		x$('ul#nav li').getStyle('font-size'); // returns ['12px', '14px']
 		
 		x$('ul#nav li.trunk').getStyle('backgroundColor', function(prop) {
-		    return (prop === 'blue') ? 'green' : 'blue';
+		    alert(prop); // alerts 'blue' 
 		});
 */
     getStyle: function(prop, callback) {
@@ -81,11 +87,7 @@ xui.extend({
         	var styles = [];
             this.each(function(el) {styles.push(s(el, prop))});
  			return styles;
-        } else {
-            this.each(function(el) {
-                callback(s(el, prop));
-            });
-		}
+        } else this.each(function(el) { callback(s(el, prop)); });
     },
 
 /**
