@@ -10,7 +10,7 @@ xui.extend({
 	html
 	----
 
-	Manipulates HTML in the DOM.
+	Manipulates HTML in the DOM. Also just returns the inner HTML of elements in the collection if called with no arguments.
 
 	### syntax ###
 
@@ -24,6 +24,10 @@ xui.extend({
 
 		x$( window ).outer( html );
 		x$( window ).before( html );
+	
+	or you can just retrieve the inner HTML of elements in the collection with:
+	
+	    x$( document.body ).html();
 
 	### arguments ###
 
@@ -53,7 +57,11 @@ xui.extend({
         clean(this);
 
         if (arguments.length == 0) {
-            return this[0].innerHTML;
+            var i = [];
+            this.each(function(el) {
+                i.push(el.innerHTML);
+            });
+            return i;
         }
         if (arguments.length == 1 && arguments[0] != 'remove') {
             html = location;
