@@ -98,7 +98,7 @@ xui.extend({
         var that   = this,
             req    = new XMLHttpRequest(),
             method = o.method || 'get',
-            async  = o.async || false,           
+            async  = o.async || true,           
             params = o.data || null,
             i = 0;
 
