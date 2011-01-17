@@ -70,7 +70,8 @@ CoreTests.prototype.run = function () {
         }
     });
         test( '.getStyle()', function(){
-            expect(3);
+            expect(4);
+            ok(e.getStyle('background-color') instanceof Array, 'Should always return an Array');
             var style = e.getStyle('background-color')[0].toLowerCase();
             ok(style == 'rgb(0, 0, 255)' || style == '#0000ff', 'Should return proper style via CSS style name');
             var styletwo = e.getStyle('backgroundColor')[0].toLowerCase();
@@ -83,28 +84,29 @@ CoreTests.prototype.run = function () {
             });
         });
         test( '.setStyle()', function(){
-            expect(2);
-            e.setStyle('background-color', '#008000');
+            expect(3);
+            equals(e, e.setStyle('background-color', '#008000'), 'Should be chainable');
             ok(e[0].style.backgroundColor == 'rgb(0, 128, 0)' || e[0].style.backgroundColor == '#008000', 'Should be able to change styles via background-color');
             e.setStyle('backgroundColor', '#800000');
             ok(e[0].style.backgroundColor == 'rgb(128, 0, 0)' || e[0].style.backgroundColor == '#800000', 'Should be able to change styles via backgroundColor');
         });
         test( '.addClass()', function(){
-            expect(2);
+            expect(3);
             var x = x$('#add-class-element');
-            x.addClass('foo');
+            equals(x, x.addClass('foo'), 'Should be chainable');
             equals(x[0].className, "foo", 'Should properly add class to an element with no existing classes');
             x.addClass('bar');
             equals(x[0].className, "foo bar", 'Should properly add class to an element with an existing class');
         });
         test('.removeClass()', function() {
-            expect(3);
+            expect(4);
             var x = x$('#remove-class-element');
-            x.removeClass('bar');
+            equals(x, x.removeClass('bar'), 'Should be chainable');
             var classes = x[0].className.split(' ');
             ok(classes.indexOf('bar') == -1, 'Should remove a class from an element');
             ok(classes.indexOf('foo') > -1,  'Should keep surrounding classes intact');
             ok(classes.indexOf('baz') > -1,  'Should keep surrounding classes intact');
+            x.removeClass('foo');
         });
         test('.hasClass()', function() {
             var x = x$('#has-class-element');
@@ -113,6 +115,12 @@ CoreTests.prototype.run = function () {
             
             var y = x$('#this-should-never-exist-in-the-dom');
             equals(y.hasClass('bar'), false, 'Should return false when the selector matches zero elements');
+            
+            var spans = x$('#style_tests span');
+            equals(spans.hasClass('for-has'), false, 'Should return false for multi-object collections where not all elements have the class');
+            
+            var foo = x$('#style_tests .foo');
+            equals(foo.hasClass('bar'), true, 'Should return true for multi-object collections where all elements have the class');
             
             var z = x$('#style_tests').find('p');
             var numFound = 0;
@@ -123,6 +131,24 @@ CoreTests.prototype.run = function () {
                 if (numFound > 2) QUnit.start();
             });
             equals(numFound, x$('#style_tests').find('.foo').length, 'Should invoke callback function properly for every item with matching class');
+        });
+        test('.toggleClass()', function() {
+            expect(4);
+            var x = x$('#toggle-class-element');
+            
+            equals(x.toggleClass('someClass'), x, 'Should be chainable');
+            
+            x.toggleClass('foo');
+            var classes = x[0].className.split(' ');
+            ok(classes.indexOf('foo') == -1, 'Should remove class "foo" if present on element');
+            
+            x.toggleClass('foo');
+            var classes = x[0].className.split(' ');
+            ok(classes.indexOf('foo') > -1, 'Should add class "foo" if not present on element');
+            
+            var y = x$('#style_tests span'); // one span has a 'for-has' class, the other doesn't.
+            y.toggleClass('for-has');
+            ok(y[0].className == '' && y[1].className == 'for-has', 'In multi-object collections, should add class where class is not present, and remove where it is');
         });
 
     // --
@@ -150,9 +176,9 @@ CoreTests.prototype.run = function () {
             equals(h[0].nextSibling.nextSibling.innerHTML, 'after', 'Doesn\'t destroy sibling nodes.');
             var inputs = x$('input');
             h.after(inputs);
-            equals(h[0].nextSibling, inputs[inputs.length-1], 'Using xui collection as parameter, next sibling to element is last element in parameter collection.');
+            equals(h[0].nextSibling, inputs[inputs.length-1], 'Using xui collection as parameter, next sibling to element is last element in parameter collection');
             h.after(inputs[0]);
-            equals(h[0].nextSibling, inputs[0], 'Using HTMLElement as parameter, next sibling to element is passed in element.');
+            equals(h[0].nextSibling, inputs[0], 'Using HTMLElement as parameter, next sibling to element is passed in element');
         });
 
         test( 'Inserting html "before"', function() {
@@ -209,7 +235,7 @@ CoreTests.prototype.run = function () {
                 x$('#doesnt-exist').remove();
                 x$('#neither-does-this-one').html('remove');
             } catch(e) {
-                ok(false, 'Should not trigger exception on empty xui collections.');
+                ok(false, 'Should not trigger exception on empty xui collections');
             }
         });
         test( '.html()', function(){
