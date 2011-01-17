@@ -185,20 +185,37 @@ xui.extend({
 		x$('.foo').removeClass('awesome');
 */
     removeClass: function(className) {
-        if (className === undefined) {
-            this.each(function(el) {
-                el.className = '';
-            });
-        } else {
-            var re = getClassRegEx(className);
-            this.each(function(el) {
-                el.className = trim(el.className.replace(re, '$1'));
-            });
-        }
+        if (className === undefined) this.each(function(el) { el.className = ''; });
+        else this.each(function(el) { el.className = trim(el.className.replace(getClassRegEx(className), '$1')); });
         return this;
     },
 
+/**
+	toggleClass
+	-----------
 
+	Removes the specified class if it exists on the elements in the xui collection, otherwise adds it. 
+
+	### syntax ###
+
+		x$( selector ).toggleClass( className );
+
+	### arguments ###
+
+	- className `String` is the name of the CSS class to toggle.
+
+	### example ###
+        <div class="foo awesome"></div>
+        
+		x$('.foo').toggleClass('awesome'); // div above loses its awesome class.
+*/
+    toggleClass: function(className) {
+        return this.each(function(el) {
+            if (hasClass(el, className)) el.className = trim(el.className.replace(getClassRegEx(className), '$1'));
+            else el.className = trim(el.className + ' ' + className);
+        });
+    },
+    
 /**
 	css
 	---
