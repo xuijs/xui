@@ -120,7 +120,7 @@ xui.extend({
 	hasClass
 	--------
 
-	Checks if the class is on the element.
+	Checks if the class is on _all_ elements in the xui collection.
 
 	### syntax ###
 
@@ -137,25 +137,30 @@ xui.extend({
 			}
 
 	### example ###
-
-		// returns true or false
-		$('#foo').hasClass('awesome');
+        <div id="foo" class="foo awesome"></div>
+        <div class="foo awesome"></div>
+        <div class="foo"></div>
+        
+		// returns true
+		x$('#foo').hasClass('awesome');
 		
-		// returns true or false,
-		// and calls the function with each element
-		$('.foo').hasClass('awesome', function(element) {
-		    console.log('Hey, I found: ' + element);
+		// returns false (not all elements with class 'foo' have class 'awesome'),
+		// but the callback gets invoked with the elements that did match the 'awesome' class
+		x$('.foo').hasClass('awesome', function(element) {
+		    console.log('Hey, I found: ' + element + ' with class "awesome"');
 		});
+		
+		// returns true (all DIV elements have the 'foo' class)
+		x$('div').hasClass('foo');
 */
     hasClass: function(className, callback) {
         var self = this;
         return this.length && (function() {
-                var hasIt = false;
+                var hasIt = true;
                 self.each(function(el) {
                     if (hasClass(el, className)) {
-                        hasIt = true;
                         if (callback) callback(el);
-                    }
+                    } else hasIt = false;
                 });
                 return hasIt;
             })();
