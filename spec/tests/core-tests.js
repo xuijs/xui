@@ -13,23 +13,27 @@ CoreTests.prototype.run = function () {
         }
     });
         test( '.find()', function(){
+            expect(1);
             x = x$('#find_tests_inner').find('.foo');
             equals(x[0].innerHTML, 'second', 'Should set context properly and limit tree searches to base xui object');
         });
         test( '.has()', function(){
+            expect(1);
             equals(x.has(".foo").length, 2, 'Should return number of elements after including a specific class as defined in markup');
         });
         test( '.not()', function(){
+            expect(1);
             equals(x.not(".foo").length, 3, 'Should return number of elements after omitting a specific class as defined in markup');
         });
     
-    module("Selectors (base.js)", {
+    module("Base (base.js)", {
         setup:function() {},
         teardown:function() {
             x = null;
         }
     });
         test( 'ID selector', function(){
+            expect(3);
             x = x$('#item_1');
             equals(x.length, 1, 'Should return non-zero length array for existing elements with specified ID');
             equals(x[0].innerHTML, 'this is item one', 'Should contain innerHTML as exists in markup');
@@ -37,17 +41,21 @@ CoreTests.prototype.run = function () {
             equals(x.length, 0, 'Should return a zero length array for non-existing elements');
         });
         test('Class selector', function() {
+            expect(3);
             x = x$(".item");
             equals(x.length, 3, 'Should return number of elements with class the proper specified class');
             equals(x[0].innerHTML, 'this is item one', 'Should have text as specified in markup');
-            equals(x[x.length -1].innerHTML, 'this is item three', 'Should have text as specified in markup');
+            equals(x[x.length - 1].innerHTML, 'this is item three', 'Should have text as specified in markup');
         });
-        test('Element reference selector', function() {
-            el = document.getElementById("item_1"),
+        test('Element(s) reference selector', function() {
+            expect(3);
+            var el = document.getElementById("item_1"),
             x = x$(el);
             equals(x.length, 1, 'Should return array with one element');
             equals(x[0].innerHTML, 'this is item one', 'Should have proper text as defined in page markup');
-            el = null;
+            var formEls = document.getElementById('form_1').elements;
+            x = x$(formEls);
+            equals(x.length, 2, 'Should return proper number of elements when passing in a HTMLCollection object')
         });
         test('Tag name selector', function() {
             expect(2);

@@ -156,7 +156,7 @@ xui.fn = xui.prototype = {
               ele = slice(ele);
             } else if (q instanceof Array) {
                 ele = q;
-            } else if (q.toString() == '[object NodeList]') {
+            } else if (q.toString() == '[object NodeList]' || q.toString() == '[object HTMLCollection]') {
                 ele = slice(q);
             } else if (q.nodeName || q === window) { // only allows nodes in
                 // an element was passed in
