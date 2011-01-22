@@ -288,7 +288,7 @@ CoreTests.prototype.run = function () {
     });
         test( 'Synchronous XHRs', function(){
             expect(1);
-            x.xhr("helpers/example.html");
+            x.xhr("helpers/example.html", {async:false});
             equals(x[0].innerHTML.toLowerCase(), '<h1>this is a html partial</h1>', 'Should insert partial into element');
         });
         
@@ -326,9 +326,10 @@ CoreTests.prototype.run = function () {
         test( '.tween()', function() {
             QUnit.stop();
             expect(2);
+            var el = x;
             x.tween({left:'100px'}, function() {
                 ok(true, 'Callback should be called following tween');
-                equals(x[0].style.left,'100px', 'Tweened property should be set to final value as specified in tween call');
+                equals(el[0].style.left,'100px', 'Tweened property should be set to final value as specified in tween call');
                 QUnit.start();
             });
         });
