@@ -145,13 +145,14 @@ xui.extend({
     attr: function(attribute, val) {
         if (arguments.length == 2) {
             return this.each(function(el) {
-                (attribute=='checked'&&(val==''||val==false||typeof val=="undefined"))?el.removeAttribute(attribute):el.setAttribute(attribute, val);
+                (el.setAttribute?(attribute=='checked'&&(val==''||val==false||typeof val=="undefined"))?el.removeAttribute(attribute):el.setAttribute(attribute, val):0);
             });
         } else {
             var attrs = [];
             this.each(function(el) {
-                var val = el.getAttribute(attribute);
-                attrs.push(val);
+                if (el.getAttribute) {
+                    attrs.push(el.getAttribute(attribute));
+                }
             });
             return attrs;
         }

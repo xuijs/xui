@@ -265,12 +265,22 @@ CoreTests.prototype.run = function () {
         });
         
         test('.attr()', function() {
-            expect(2);
+            expect(4);
             var checkbox = x$('#first-check');
             checkbox.attr('checked',true);
             equals(checkbox[0].checked, true, 'Should be able to check a checkbox-type input element');
             checkbox.attr('checked',false);
             equals(checkbox[0].checked, false, 'Should be able to un-check a checkbox-type input element');
+            try {
+                x$(window).attr('height','100px');
+                x$(window).attr('onload');
+            } catch(e) {
+                ok(false, 'Getting or setting attribute on window object should not throw exception');
+            }
+            var beforeAttr = h.attr('width');
+            h.attr('width', '100px');
+            equals(h[0].getAttribute('width'), '100px', 'Setting DOM element attribute with attr should work');
+            ok(beforeAttr != h.attr('width'), 'Getting DOM element attribute should work also');
         });
 
     // --
