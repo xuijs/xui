@@ -1,8 +1,17 @@
 /**
 	Basics
 	======
-
-	Includes functionality used to manipulate the xui object collection.
+    
+    xui is available as the global `x$` function. It accepts a CSS selector string or DOM element, or an array of a mix of these, as parameters,
+    and returns the xui object. For example:
+    
+        var header = x$('#header'); // returns the element with id attribute equal to "header".
+        
+    For more information on CSS selectors, see the [W3C specification](http://www.w3.org/TR/CSS2/selector.html). Please note that there are
+    different levels of CSS selector support (Levels 1, 2 and 3) and different browsers support each to different degrees. Be warned!
+    
+	The functions described in the docs are available on the xui object and often manipulate or retrieve information about the elements in the
+	xui collection.
 
 */
 var undefined,
