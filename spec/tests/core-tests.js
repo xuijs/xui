@@ -1,4 +1,8 @@
+// QUnit is an interesting beast
 QUnit.config.autostart = false;
+if (typeof window.localStorage != 'undefined') window.localStorage.clear();
+if (typeof window.sessionStorage != 'undefined') window.sessionStorage.clear();
+
 
 function CoreTests() { return this; };
 CoreTests.prototype.run = function () {
@@ -298,50 +302,50 @@ CoreTests.prototype.run = function () {
             x = null;
         }
     });
+    test( 'Asynchronous XHRs', function() {
+        QUnit.stop();
+        expect(2);
+        x.xhr("helpers/example.html", {
+            callback:function() {
+                ok(true, 'Specified callback function should be triggered properly');
+                equals(x[0].innerHTML,'','Defined callback should override default behaviour of injecting response into innerHTML');
+                QUnit.start();
+            }
+        });
+    });
         test( 'Synchronous XHRs', function(){
             expect(1);
             x.xhr("helpers/example.html", {async:false});
             equals(x[0].innerHTML.toLowerCase(), '<h1>this is a html partial</h1>', 'Should insert partial into element');
         });
         
-        test( 'Asynchronous XHRs', function() {
-            QUnit.stop();
-            expect(2);
-            x.xhr("helpers/example.html", {
-                callback:function() {
-                    ok(true, 'Specified callback function should be triggered properly');
-                    equals(x[0].innerHTML,'','Defined callback should override default behaviour of injecting response into innerHTML');
-                    QUnit.start();
-                }
-            });
-        });
+        
 
     // --
     /// fx specs
     // --
 
     module( "Effects (fx.js)", {
-        setup:function() {
-            x = x$('#square');
-        },
-        teardown:function() {
-            var s = x[0].style;
-            s.position = 'relative',
-                s.width = '50px',
-                s.height = '50px',
-                s.backgroundColor = 'red',
-                s.top = '0px',
-                s.left = '0px',
-                x = null;
-        }
+        setup:function() {},
+        teardown:function() {}
     });
         test( '.tween()', function() {
             QUnit.stop();
             expect(2);
-            var el = x;
-            x.tween({left:'100px'}, function() {
+            var el = x$('#square');
+            el.tween({left:'100px'}, function() {
                 ok(true, 'Callback should be called following tween');
                 equals(el[0].style.left,'100px', 'Tweened property should be set to final value as specified in tween call');
+                QUnit.start();
+            });
+        });
+        test( '.tween() with negative values', function() {
+            QUnit.stop();
+            expect(2);
+            var el = x$('#square_neg');
+            el.tween({left:'-100px'}, function() {
+                ok(true, 'Callback should be called following tween');
+                equals(el[0].style.left,'-100px', 'Tweened property should be set to final (negative) value as specified in tween call');
                 QUnit.start();
             });
         });
