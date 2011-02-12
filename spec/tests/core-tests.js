@@ -1,3 +1,5 @@
+QUnit.config.autostart = false;
+
 function CoreTests() { return this; };
 CoreTests.prototype.run = function () {
     // ---
@@ -478,4 +480,5 @@ CoreTests.prototype.run = function () {
                 ok(false, 'tripleclick bespoke event missing');
             }
         });
+    QUnit.start();
 }
