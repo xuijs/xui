@@ -100,14 +100,14 @@ xui.extend({
             method = o.method || 'get',
             async  = (typeof o.async != 'undefined'?o.async:true),           
             params = o.data || null,
-            i = 0;
+            key;
 
         req.queryString = params;
         req.open(method, url, async);
 
-        if (o.headers) {
-            for (; i<o.headers.length; i++) {
-              req.setRequestHeader(o.headers[i].name, o.headers[i].value);
+        for (key in o.headers) {
+            if (o.headers.hasOwnProperty(key)) {
+              req.setRequestHeader(key, o.headers[key]);
             }
         }
 
