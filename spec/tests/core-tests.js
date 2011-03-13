@@ -304,6 +304,15 @@ CoreTests.prototype.run = function () {
 
     module( "Remoting (xhr.js)", {
         setup:function() {
+            var srh = XMLHttpRequest.prototype.setRequestHeader;
+
+            window.headers = {};
+
+            XMLHttpRequest.prototype.setRequestHeader = function (key, val) {
+                window.headers[key] = val;
+                srh.call(this, key, val);
+            }
+
             x = x$('#xhr-test-function');
         },
         teardown:function() {
@@ -326,6 +335,17 @@ CoreTests.prototype.run = function () {
             expect(1);
             x.xhr("helpers/example.html", {async:false});
             equals(x[0].innerHTML.toLowerCase(), '<h1>this is a html partial</h1>', 'Should insert partial into element');
+        });
+
+        test( 'Setting headers', function () {
+            expect(1);
+            x.xhr("helpers/example.html", {
+                async: false,
+                headers: {
+                    'foo': 'bar',
+                }
+            });
+            equals(window.headers['foo'], 'bar', 'Should call setRequestHeader correctly');
         });
         
         
