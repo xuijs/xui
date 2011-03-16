@@ -308,7 +308,7 @@ CoreTests.prototype.run = function () {
         x.xhr("helpers/example.html", {
             callback:function() {
                 ok(true, 'Specified callback function should be triggered properly');
-                equals(x[0].innerHTML,'','Defined callback should override default behaviour of injecting response into innerHTML');
+                equals(x$('#xhr-test-function')[0].innerHTML,'','Defined callback should override default behaviour of injecting response into innerHTML');
                 QUnit.start();
             }
         });
