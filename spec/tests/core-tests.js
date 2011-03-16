@@ -225,10 +225,19 @@ CoreTests.prototype.run = function () {
             equals(topTest[0].childNodes.length, numOriginalElements+1, 'Existing element inside selected element should remain after a "top" insertion');
         });
         test( 'Inserting html via "bottom"', function(){
+            // Base case
             var numOriginalElements = bottom[0].childNodes.length;
             bottom.html('bottom', '<div>undertow</div>');
             equals(bottom[0].childNodes[numOriginalElements].innerHTML, 'undertow', 'Should create a new element at tail of element\'s childNodes'); 
             equals(bottom[0].childNodes.length, numOriginalElements+1, 'Existing element inside selected element should remain after a "bottom" insertion');
+            
+            // Test with complex attributes.
+            numOriginalElements = bottom[0].childNodes.length;
+            bottom.html('bottom', '<p id="this-is-a-test" style="font-size:12px;color:red;">hi</p>');
+            equals(bottom[0].childNodes[numOriginalElements].innerHTML, 'hi', 'Should create a new element at tail of element\'s childNodes'); 
+            equals(bottom[0].childNodes.length, numOriginalElements+1, 'Existing elements inside selected element should remain after a "bottom" insertion');
+
+            // Numerous sibling elements test.
             numOriginalElements = bottom[0].childNodes.length;
             var numerousItems = '' +
               '<a href="#1" class="link_o">one link</a>' +
