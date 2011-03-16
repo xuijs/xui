@@ -18,7 +18,7 @@ xui.extend({
 
 	It is always invoked on an element collection and uses the behaviour of `html`.
 
-	If there no callback, then the `responseText` will be inserted into the elements in the collection.
+	If there is no callback, then the `responseText` will be inserted into the elements in the collection.
 
 	### syntax ###
 
@@ -36,12 +36,13 @@ xui.extend({
 
 	- location `String` is the location to insert the `responseText`. See `html` for values.
 	- url `String` is where to send the request.
-	- fn `Function` is called on status 200 (i.e. sucess callback).
+	- fn `Function` is called on status 200 (i.e. success callback).
 	- options `Object` is a JSON object with one or more of the following:
 		- method `String` can be _get_, _put_, _delete_, _post_. Default is _get_.
 		- async `Boolean` enables an asynchronous request. Defaults to _false_.
 		- data `String` is a url encoded string of parameters to send.
 		- callback `Function` is called on status 200 (i.e. success callback).
+    - headers `Object` is a JSON object with key:value pairs that get set in the request's header set.
 
 	### response ###
 
@@ -63,12 +64,15 @@ xui.extend({
 		// same as using 'inner'
 		x$('#status').xhr('/status.html');
 
-		// define a callback and enable async execution
+		// define a callback, enable async execution and add a request header
 		x$('#left-panel').xhr('/panel', {
 		    async: true,
 		    callback: function() {
 		        alert("The response is " + this.responseText);
-		    }
+		    },
+        headers:{
+            'Mobile':'true'
+        }
 		});
 
 		// define a callback with the shorthand syntax
