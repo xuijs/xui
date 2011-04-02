@@ -328,10 +328,14 @@ xui.fn = xui.prototype = {
 		var notRound = divs.not('.round'); // got two divs with classes .square and .shadow
 */
     not: function(q) {
-        var list = slice(this);
+        var list = slice(this),
+            omittedNodes = xui(q);
+        if (!omittedNodes.length) {
+            return this;
+        }
         return this.filter(function(i) {
             var found;
-            xui(q).each(function(el) {
+            omittedNodes.each(function(el) {
                 return found = list[i] != el;
             });
             return found;

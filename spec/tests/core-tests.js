@@ -28,8 +28,9 @@ CoreTests.prototype.run = function () {
             equals(x.has(".foo").length, 2, 'Should return number of elements after including a specific class as defined in markup');
         });
         test( '.not()', function(){
-            expect(1);
+            expect(2);
             equals(x.not(".foo").length, 3, 'Should return number of elements after omitting a specific class as defined in markup');
+            equals(x.not(".not_in_dom").length, 5, 'Should return all elements after omitting a specific class that doesn\'t exist');
         });
     
     module("Base (base.js)", {
