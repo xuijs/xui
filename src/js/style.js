@@ -98,7 +98,7 @@ xui.extend({
 
 	### syntax ###
 
-		$( selector ).addClass( className );
+		x$( selector ).addClass( className );
 
 	### arguments ###
 
@@ -106,7 +106,7 @@ xui.extend({
 
 	### example ###
 
-		$('.foo').addClass('awesome');
+		x$('.foo').addClass('awesome');
 */
     addClass: function(className) {
         return this.each(function(el) {
@@ -124,7 +124,7 @@ xui.extend({
 
 	### syntax ###
 
-		$( selector ).hasClass( className, fn );
+		x$( selector ).hasClass( className, fn );
 
 	### arguments ###
 
