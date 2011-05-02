@@ -145,13 +145,18 @@ xui.extend({
     attr: function(attribute, val) {
         if (arguments.length == 2) {
             return this.each(function(el) {
-                (el.setAttribute?(attribute=='checked'&&(val==''||val==false||typeof val=="undefined"))?el.removeAttribute(attribute):el.setAttribute(attribute, val):0);
+                if (el.tagName == 'input' && attribute == 'value') el.value = val;
+                else if (el.setAttribute) {
+                  if (attribute == 'checked' && (val == '' || val == false || typeof val == "undefined")) el.removeAttribute(attribute);
+                  else el.setAttribute(attribute, val);
+                }
             });
         } else {
             var attrs = [];
             this.each(function(el) {
-                if (el.getAttribute) {
-                    attrs.push(el.getAttribute(attribute));
+                if (el.tagName == 'input' && attribute == 'value') attrs.push(el.value);
+                else if (el.getAttribute) {
+                    attrs.push(el.getAttribute(attribute) || '');
                 }
             });
             return attrs;

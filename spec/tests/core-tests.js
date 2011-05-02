@@ -281,7 +281,7 @@ CoreTests.prototype.run = function () {
         });
         
         test('.attr()', function() {
-            expect(4);
+            expect(6);
             var checkbox = x$('#first-check');
             checkbox.attr('checked',true);
             equals(checkbox[0].checked, true, 'Should be able to check a checkbox-type input element');
@@ -297,6 +297,12 @@ CoreTests.prototype.run = function () {
             h.attr('width', '100px');
             equals(h[0].getAttribute('width'), '100px', 'Setting DOM element attribute with attr should work');
             ok(beforeAttr != h.attr('width'), 'Getting DOM element attribute should work also');
+            
+            var textInput = x$('#text_input');
+            var inputValueBefore = textInput.attr('value');
+            equals(inputValueBefore[0], "initial value", 'should existing string in input when calling attr() with one parameter.');
+            textInput.attr('value','some new value');
+            equals(textInput[0].value, 'some new value', 'using attr() to set value on text inputs should work.');
         });
 
     // --
