@@ -197,7 +197,7 @@ function wrap(xhtml, tag) {
 
         // if the node has any attributes, convert to object
         if (result[2] !== "") {
-            attrList = result[2].split(/([A-Z\-]*\s*=\s*['|"][A-Z0-9:;#\s]*['|"])/i);
+            attrList = result[2].split(/([A-Z\-]*\s*=\s*['|"][A-Z0-9:;#%\.\s]*['|"])/i);
 
             for (; i < attrList.length; i++) {
                 attr = attrList[i].replace(/^\s*|\s*$/g, "");

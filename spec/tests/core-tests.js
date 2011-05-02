@@ -263,8 +263,8 @@ CoreTests.prototype.run = function () {
             }
         });
         test( '.html()', function(){
-            expect(4);
-            equals(h.html(), h[0].innerHTML, 'Should return innerHTML when called with no arguments');
+            expect(5);
+            equals(h.html()[0], h[0].innerHTML, 'Should return innerHTML when called with no arguments');
             
             var newListItem = "<li>\nHello\n</li>";
             x$("#html-list-test").html('bottom', newListItem);
@@ -278,6 +278,14 @@ CoreTests.prototype.run = function () {
             var myVideo = '<video src="myAwesomeVideo.mp4" id="my_video" autobuffer="" controls=""></video>';
             x$("#html-complex-test").html('inner', myVideo);
             equals(x$("#html-complex-test")[0].innerHTML, myVideo, 'Should properly insert complex DOM elements (like a video tag)');
+
+            // percent and periods in attributes when injecting HTML
+            var oldMarkup = x$('#html-list-test').html()[0];
+            var newMarkup = '<li id="help" style="width: 33.3333%;"> help </li>';
+            x$('#html-list-test').html('bottom', newMarkup);
+            equals(x$('#html-list-test')[0].innerHTML, oldMarkup + newMarkup, 'injecting html with attributes containing periods or percent signs should work');
+
+            
         });
         
         test('.attr()', function() {
