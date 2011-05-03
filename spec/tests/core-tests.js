@@ -336,8 +336,8 @@ CoreTests.prototype.run = function () {
         }
     });
     test( 'Asynchronous XHRs', function() {
-        QUnit.stop();
         expect(2);
+        QUnit.stop();
         x.xhr("helpers/example.html", {
             callback:function() {
                 ok(true, 'Specified callback function should be triggered properly');
