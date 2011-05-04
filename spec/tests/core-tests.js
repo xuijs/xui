@@ -245,7 +245,7 @@ CoreTests.prototype.run = function () {
               '<a href="#2" class="link_o">two link</a>' +
               '<a href="#3" class="link_o">three link</a>';
             bottom.html('bottom', numerousItems);
-            //equals(bottom[0].childNodes.length, numOriginalElements + 3, 'Should append numerous elements when passed as string');
+            equals(bottom[0].childNodes.length, numOriginalElements + 3, 'Should append numerous elements when passed as string');
         });
         test( 'Removing html elements via "remove"', function() {
             expect(2);
