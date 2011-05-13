@@ -6,10 +6,9 @@ if (typeof window.sessionStorage != 'undefined') window.sessionStorage.clear();
 
 function CoreTests() { return this; };
 CoreTests.prototype.run = function () {
-    // ---
-    /// base.js specs
-    // ---
-    
+  // ---
+  // base.js specs
+  // ---
     module("xui base (base.js)", {
         setup:function() {
             x = x$('ul#has_tests li');
@@ -33,7 +32,7 @@ CoreTests.prototype.run = function () {
             equals(x.not(".not_in_dom").length, 5, 'Should return all elements after omitting a specific class that doesn\'t exist');
         });
     
-    module("Base (base.js)", {
+    module("Selectors", {
         setup:function() {},
         teardown:function() {
             x = null;
@@ -528,5 +527,34 @@ CoreTests.prototype.run = function () {
                 ok(false, 'tripleclick bespoke event missing');
             }
         });
+
+        test('Should be able to fire keyboard events', function() {
+          QUnit.stop();
+          expect(1);
+          var i = document.createElement('input');
+          i.type = 'text';
+          i.onkeyup = function(e) { 
+            ok(true, "keyboard event should be fired.");
+            QUnit.start();
+          }
+          x.bottom(i);
+          i = x$(i);
+          i.fire('keyup');
+        });
+
+        test('Should be able to fire and trigger keyboard events via xui', function() {
+          QUnit.stop();
+          expect(1);
+          var i = document.createElement('input');
+          i.type = 'text';
+          i = x$(i);
+          i.on('keyup', function(e) { 
+            ok(true, "keyboard event should be fired.");
+            QUnit.start();
+          });
+          x.bottom(i);
+          i.fire('keyup');
+        });
+
     QUnit.start();
 }
