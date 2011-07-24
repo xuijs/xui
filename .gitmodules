@@ -3,7 +3,7 @@
 	url = git://github.com/jquery/qunit.git
 [submodule "packages/sizzle"]	
 	path = packages/sizzle
-	url = git://github.com/jeresig/sizzle.git
+	url = git://github.com/jquery/sizzle.git
 [submodule "packages/emile"]
 	path = packages/emile
 	url = http://github.com/madrobby/emile.git
