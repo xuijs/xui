@@ -54,6 +54,16 @@ function removex(array, from, to) {
     return array.push.apply(array, rest);
 }
 
+// converts all CSS style names to DOM style names, i.e. margin-left to marginLeft
+function domstyle(name) {
+  return name.replace(/\-[a-z]/g,function(m) { return m[1].toUpperCase(); });
+}
+
+// converts all DOM style names to CSS style names, i.e. marginLeft to margin-left
+function cssstyle(name) {
+  return name.replace(/[A-Z]/g, function(m) { return '-'+m.toLowerCase(); })
+}
+
 xui.fn = xui.prototype = {
 
 /**
