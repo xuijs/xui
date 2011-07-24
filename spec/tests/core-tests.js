@@ -334,17 +334,17 @@ CoreTests.prototype.run = function () {
             x = null;
         }
     });
-    test( 'Asynchronous XHRs', function() {
-        expect(2);
-        QUnit.stop();
-        x.xhr("helpers/example.html", {
-            callback:function() {
-                ok(true, 'Specified callback function should be triggered properly');
-                equals(x$('#xhr-test-function')[0].innerHTML,'','Defined callback should override default behaviour of injecting response into innerHTML');
-                QUnit.start();
-            }
+        test( 'Asynchronous XHRs', function() {
+            expect(2);
+            QUnit.stop();
+            x.xhr("helpers/example.html", {
+                callback:function() {
+                    ok(true, 'Specified callback function should be triggered properly');
+                    equals(x$('#xhr-test-function')[0].innerHTML,'','Defined callback should override default behaviour of injecting response into innerHTML');
+                    QUnit.start();
+                }
+            });
         });
-    });
         test( 'Synchronous XHRs', function(){
             expect(1);
             x.xhr("helpers/example.html", {async:false});
@@ -361,8 +361,16 @@ CoreTests.prototype.run = function () {
             });
             equals(window.headers['foo'], 'bar', 'Should call setRequestHeader correctly');
         });
-        
-        
+
+        test( 'Should have X-Request-With header set to XMLHttpRequest', function() {
+            expect(1);
+            x.xhr("helpers/example.html", {
+                headers: {
+                    'foo':'bar'
+                }
+            });
+            equals(window.headers['X-Request-With'], 'XMLHttpRequest', 'Should set X-Request-With header to "XMLHttpRequest"');
+        });
 
     // --
     /// fx specs
