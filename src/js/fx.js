@@ -72,7 +72,7 @@ xui.extend({
       var serialisedProps = [], key;
       if (typeof props != string) {
         for (key in props) {
-          serialisedProps.push(key + ':' + props[key]);
+          serialisedProps.push(cssstyle(key) + ':' + props[key]);
         }
         serialisedProps = serialisedProps.join(';');
       } else {
