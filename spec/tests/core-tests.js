@@ -437,6 +437,11 @@ CoreTests.prototype.run = function () {
             x = null;
         }
     });
+        test('xui object should have a "ready" function', function() {
+            expect(2);
+            equals(typeof x$.ready, "function", "x$ should have the 'ready' function");
+            equals(typeof xui.ready, "function", "xui should have the 'ready' function");
+        });
         test('.on(event,function() { ... }) should bind anonymous function to selected element, and should be triggered by .fire(event) call', function () {
             QUnit.stop();
             expect(2);

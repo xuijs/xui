@@ -10,6 +10,7 @@
         "src/js/xhr",
         "packages/emile/emile",
         "packages/sizzle/sizzle",
+        "packages/domready/ready",
         "src/footer"
     ]
 }

@@ -7,3 +7,6 @@
 [submodule "packages/emile"]
 	path = packages/emile
 	url = http://github.com/madrobby/emile.git
+[submodule "packages/domready"]
+	path = packages/domready
+	url = https://github.com/ded/domready.git

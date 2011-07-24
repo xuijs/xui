@@ -200,6 +200,35 @@ xui.touch = (function () {
   };
 })();
 
+/**
+	ready
+	----
+
+  Event handler for when the DOM is ready. Thank you [domready](http://www.github.com/ded/domready)!
+
+	### syntax ###
+
+		x$.ready(handler);
+
+	### arguments ###
+
+	- handler `Function` event handler to be attached to the "dom is ready" event.
+
+	### example ###
+
+    x$.ready(function() {
+      alert('mah doms are ready');
+    });
+
+    xui.ready(function() {
+      console.log('ready, set, go!');
+    });
+
+*/
+xui.ready = function(handler) {
+  domReady(handler);
+}
+
 // lifted from Prototype's (big P) event model
 function _getEventID(element) {
     if (element._xuiEventID) return element._xuiEventID;

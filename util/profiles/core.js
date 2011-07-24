@@ -9,6 +9,7 @@
         "src/js/style",
         "src/js/xhr",
         "packages/emile/emile",
+        "packages/domready/ready",
         "src/footer"
     ]
 }
