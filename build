@@ -52,7 +52,6 @@ if extra
 end
 
 if minify
-  puts "Minify-ing..."
   minified_filename = hash['out'].sub(/\.js$/, '.min.js')
   `java -jar util/compiler.jar --js=#{ hash["out"] } \
   --js_output_file=#{ minified_filename }`
@@ -130,11 +129,9 @@ if docs
   FileUtils.rm_r(DOC_DIR) if File.exists?(DOC_DIR)
 
   # Generate HTML
-  puts "Generating HTML documentation..."
   generate_documentation(HTML_DIR)
 
   # Generate EJS
-  puts "Generating EJS documentation..."
   generate_documentation(EJS_DIR)
   html_to_ejs(EJS_DIR)
   
