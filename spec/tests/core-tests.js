@@ -410,6 +410,17 @@ CoreTests.prototype.run = function () {
                 QUnit.start();
             });
         });
+        test( '.tween() with css-style named CSS styles', function() {
+            QUnit.stop();
+            expect(2);
+            var el = x$('#square_dom_two');
+            el.tween({'margin-left':'200px'}, function() {
+                ok(true, 'Callback should be called following tween');
+                equals(el[0].style.marginLeft, '200px', 'Tweened property should be set to final value');
+                QUnit.start();
+            });
+        });
+
 
     // --
     /// event specs
