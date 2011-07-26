@@ -1,5 +1,5 @@
 {
-    out: "lib/xui-ie-2.2.0.js",
+    out: "lib/xui-ie",
     include: [
         "src/header",
         "src/base",

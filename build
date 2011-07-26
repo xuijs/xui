@@ -3,8 +3,7 @@ require 'YAML'
 require 'fileutils'
 
 PROFILE_PATH = "util/profiles"
-
-# TODO: print out build command line if no args provided.
+version = open("VERSION").read.rstrip
 
 def show_usage
   STDERR.puts "\nusage: ./build [ profile=<name> ] [ --minify ] [ --generate-docs ]"
@@ -37,7 +36,7 @@ end
 hash = YAML.load_file(File.join(PROFILE_PATH, profile) + ".js")
 
 # clear previous file
-target = hash["out"]
+target = hash["out"] + "-" + version + ".js"
 target_dir = File.dirname(target)
 
 Dir.mkdir(target_dir) unless File.directory?(target_dir)
@@ -52,8 +51,8 @@ if extra
 end
 
 if minify
-  minified_filename = hash['out'].sub(/\.js$/, '.min.js')
-  `java -jar util/compiler.jar --js=#{ hash["out"] } \
+  minified_filename = target.sub(/\.js$/, '.min.js')
+  `java -jar util/compiler.jar --js=#{ target } \
   --js_output_file=#{ minified_filename }`
 end
 
