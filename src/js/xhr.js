@@ -41,6 +41,7 @@ xui.extend({
 		- method `String` can be _get_, _put_, _delete_, _post_. Default is _get_.
 		- async `Boolean` enables an asynchronous request. Defaults to _false_.
 		- data `String` is a url encoded string of parameters to send.
+                - error `Function` is called on error or status that is not 200. (i.e. failure callback).
 		- callback `Function` is called on status 200 (i.e. success callback).
     - headers `Object` is a JSON object with key:value pairs that get set in the request's header set.
 
