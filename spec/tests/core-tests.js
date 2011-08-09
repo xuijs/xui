@@ -288,7 +288,7 @@ CoreTests.prototype.run = function () {
         });
         
         test('.attr()', function() {
-            expect(6);
+            expect(7);
             var checkbox = x$('#first-check');
             checkbox.attr('checked',true);
             equals(checkbox[0].checked, true, 'Should be able to check a checkbox-type input element');
@@ -310,6 +310,8 @@ CoreTests.prototype.run = function () {
             equals(inputValueBefore[0], "initial value", 'should existing string in input when calling attr() with one parameter.');
             textInput.attr('value','some new value');
             equals(textInput[0].value, 'some new value', 'using attr() to set value on text inputs should work.');
+
+            equals(0, x$('#dom_tests').attr('non-existing').length);
         });
 
     // --
