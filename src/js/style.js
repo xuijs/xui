@@ -82,7 +82,7 @@ xui.extend({
             // out version actually *adds* 2 bytes.
             // return document.defaultView.getComputedStyle(el, "").getPropertyValue(p.replace(/([A-Z])/g, "-$1").toLowerCase());
             return document.defaultView.getComputedStyle(el, "").getPropertyValue(cssstyle(p));
-        }
+        };
         if (callback === undefined) {
         	var styles = [];
             this.each(function(el) {styles.push(s(el, prop))});

@@ -119,7 +119,7 @@ xui.extend({
                 } else if (location == "after") { // .insertAfter
                     el.parentNode.insertBefore(wrappedE, el.nextSibling);
                 }
-                var parent = wrappedE.parentNode;
+                parent = wrappedE.parentNode;
                 while(children.length) {
                   parent.insertBefore(children[0], wrappedE);
                 }
@@ -159,7 +159,7 @@ xui.extend({
             return this.each(function(el) {
                 if (el.tagName == 'input' && attribute == 'value') el.value = val;
                 else if (el.setAttribute) {
-                  if (attribute == 'checked' && (val == '' || val == false || typeof val == "undefined")) el.removeAttribute(attribute);
+                  if (attribute == 'checked' && (val == '' || !val || typeof val == "undefined")) el.removeAttribute(attribute);
                   else el.setAttribute(attribute, val);
                 }
             });
@@ -204,14 +204,13 @@ function wrap(xhtml, tag) {
 function clean(collection) {
     var ns = /\S/;
     collection.each(function(el) {
-        var d = el,
-            n = d.firstChild,
+        var n = el.firstChild,
             ni = -1,
             nx;
         while (n) {
             nx = n.nextSibling;
             if (n.nodeType == 3 && !ns.test(n.nodeValue)) {
-                d.removeChild(n);
+                el.removeChild(n);
             } else {
                 n.nodeIndex = ++ni; // FIXME not sure what this is for, and causes IE to bomb (the setter) - @rem
             }

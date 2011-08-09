@@ -197,7 +197,7 @@ xui.touch = (function () {
     return !!(document.createEvent("TouchEvent").initTouchEvent)
   } catch(e) {
     return false;
-  };
+  }
 })();
 
 /**
@@ -227,7 +227,7 @@ xui.touch = (function () {
 */
 xui.ready = function(handler) {
   domReady(handler);
-}
+};
 
 // lifted from Prototype's (big P) event model
 function _getEventID(element) {

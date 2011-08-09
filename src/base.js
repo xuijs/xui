@@ -221,7 +221,8 @@ xui.fn = xui.prototype = {
 	- index `Number` is the last array index to include in the reduction. If unspecified, it will reduce all elements _(optional)_.
 */
     reduce: function(elements, b) {
-        var a = [],
+        var a = [];
+
         elements = elements || slice(this);
         elements.forEach(function(el) {
             // question the support of [].indexOf in older mobiles (RS will bring up 5800 to test)

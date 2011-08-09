@@ -97,7 +97,7 @@ xui.extend({
             // console.log(this);
             o = {};
             o.callback = options;
-        };
+        }
         
         var that   = this,
             req    = new XMLHttpRequest(),
@@ -115,7 +115,7 @@ xui.extend({
             }
         }
 
-        // Set "X-Request-With" header
+        // Set "X-Requested-With" header
         req.setRequestHeader('X-Requested-With','XMLHttpRequest');
 
         req.handleResp = (o.callback != null) ? o.callback : function() { that.html(location, req.responseText); };
