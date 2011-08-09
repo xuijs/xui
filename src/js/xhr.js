@@ -116,7 +116,7 @@ xui.extend({
         }
 
         // Set "X-Request-With" header
-        req.setRequestHeader('X-Request-With','XMLHttpRequest');
+        req.setRequestHeader('X-Requested-With','XMLHttpRequest');
 
         req.handleResp = (o.callback != null) ? o.callback : function() { that.html(location, req.responseText); };
         req.handleError = (o.error && typeof o.error == 'function') ? o.error : function () {};
