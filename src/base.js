@@ -120,26 +120,28 @@ xui.fn = xui.prototype = {
 			{ a : 10, b : 2, c : 3 }
     */
     extend: function() {
-        var target = arguments[0] || {},
+        var extendingXUI = arguments.length === 1,
+            target = arguments[0] || {},
             source = arguments[1] || {};
 
-        // if passing in only one argument, then we
-        // extend XUI's prototype
-        if (arguments.length === 1) {
-            source = target;
-            target = xui.fn;
-        }
+        if (arguments.length) {
+            if (extendingXUI) {
+                source = target;
+                target = xui.fn;
+            }
 
-        for (var property in source) {
-            if (source[property] && source[property].constructor && source[property].constructor === Object) {
-                target[property] = target[property] || {};
-                arguments.callee(target[property], source[property]);
-            } else {
-                target[property] = source[property];
+            for (var property in source) {
+                // deep copy by recursion
+                if (!extendingXUI && source[property] && source[property].constructor && source[property].constructor === Object) {
+                    target[property] = target[property] || {};
+                    arguments.callee(target[property], source[property]);
+                } else {
+                    target[property] = source[property];
+                }
             }
         }
 
-        if (target !== xui.fn) {
+        if (!extendingXUI) {
             return target;
         }
     },
