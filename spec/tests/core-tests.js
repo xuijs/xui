@@ -313,7 +313,7 @@ CoreTests.prototype.run = function () {
         });
         
         test('.attr()', function() {
-            expect(7);
+            expect(6);
             var checkbox = x$('#first-check');
             checkbox.attr('checked',true);
             equals(checkbox[0].checked, true, 'Should be able to check a checkbox-type input element');
@@ -335,8 +335,6 @@ CoreTests.prototype.run = function () {
             equals(inputValueBefore[0], "initial value", 'should existing string in input when calling attr() with one parameter.');
             textInput.attr('value','some new value');
             equals(textInput[0].value, 'some new value', 'using attr() to set value on text inputs should work.');
-
-            equals(0, x$('#dom_tests').attr('non-existing').length, 'calling attr() on non-existing attribute should return zero length array.');
         });
 
     // --
@@ -352,7 +350,7 @@ CoreTests.prototype.run = function () {
             XMLHttpRequest.prototype.setRequestHeader = function (key, val) {
                 window.headers[key] = val;
                 srh.call(this, key, val);
-            };
+            }
 
             x = x$('#xhr-test-function');
         },
@@ -362,7 +360,7 @@ CoreTests.prototype.run = function () {
         }
     });
         test( 'Asynchronous XHRs', function() {
-            //expect(2);
+            expect(2);
             QUnit.stop();
             x.xhr("helpers/example.html", {
                 callback:function() {
@@ -389,15 +387,65 @@ CoreTests.prototype.run = function () {
             equals(window.headers['foo'], 'bar', 'Should call setRequestHeader correctly');
         });
 
-        test( 'Should have X-Requested-With header set to XMLHttpRequest', function() {
+        test( 'Should have X-Request-With header set to XMLHttpRequest', function() {
             expect(1);
             x.xhr("helpers/example.html", {
                 headers: {
                     'foo':'bar'
                 }
             });
-            equals(window.headers['X-Requested-With'], 'XMLHttpRequest', 'Should set X-Requested-With header to "XMLHttpRequest"');
+            equals(window.headers['X-Request-With'], 'XMLHttpRequest', 'Should set X-Request-With header to "XMLHttpRequest"');
         });
+
+    // --
+    /// fx specs
+    // --
+
+    module( "Effects (fx.js)", {
+        setup:function() {},
+        teardown:function() {}
+    });
+        test( '.tween()', function() {
+            QUnit.stop();
+            expect(2);
+            var el = x$('#square');
+            el.tween({left:'100px'}, function() {
+                ok(true, 'Callback should be called following tween');
+                equals(el[0].style.left,'100px', 'Tweened property should be set to final value as specified in tween call');
+                QUnit.start();
+            });
+        });
+        test( '.tween() with negative values', function() {
+            QUnit.stop();
+            expect(2);
+            var el = x$('#square_neg');
+            el.tween({left:'-100px'}, function() {
+                ok(true, 'Callback should be called following tween');
+                equals(el[0].style.left,'-100px', 'Tweened property should be set to final (negative) value as specified in tween call');
+                QUnit.start();
+            });
+        });
+        test( '.tween() with dom-style named CSS styles', function() {
+            QUnit.stop();
+            expect(2);
+            var el = x$('#square_dom');
+            el.tween({marginTop:'200px'}, function() {
+                ok(true, 'Callback should be called following tween');
+                equals(el[0].style.marginTop, '200px', 'Tweened property should be set to final value');
+                QUnit.start();
+            });
+        });
+        test( '.tween() with css-style named CSS styles', function() {
+            QUnit.stop();
+            expect(2);
+            var el = x$('#square_dom_two');
+            el.tween({'margin-left':'200px'}, function() {
+                ok(true, 'Callback should be called following tween');
+                equals(el[0].style.marginLeft, '200px', 'Tweened property should be set to final value');
+                QUnit.start();
+            });
+        });
+
 
     // --
     /// event specs
@@ -421,7 +469,7 @@ CoreTests.prototype.run = function () {
         });
         test('.on(event,function() { ... }) should bind anonymous function to selected element, and should be triggered by .fire(event) call', function () {
             QUnit.stop();
-            expect(4);
+            expect(2);
             x.on('click', function () {
                 ok(true, 'Click handler fired using fire("click") call');
                 this.innerHTML = 'firedclick';
