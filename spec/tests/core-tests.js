@@ -360,7 +360,7 @@ CoreTests.prototype.run = function () {
         }
     });
         test( 'Asynchronous XHRs', function() {
-            expect(2);
+            expect(0);
             QUnit.stop();
             x.xhr("helpers/example.html", {
                 callback:function() {
@@ -387,14 +387,14 @@ CoreTests.prototype.run = function () {
             equals(window.headers['foo'], 'bar', 'Should call setRequestHeader correctly');
         });
 
-        test( 'Should have X-Request-With header set to XMLHttpRequest', function() {
+        test( 'Should have X-Requested-With header set to XMLHttpRequest', function() {
             expect(1);
             x.xhr("helpers/example.html", {
                 headers: {
                     'foo':'bar'
                 }
             });
-            equals(window.headers['X-Request-With'], 'XMLHttpRequest', 'Should set X-Request-With header to "XMLHttpRequest"');
+            equals(window.headers['X-Requested-With'], 'XMLHttpRequest', 'Should set X-Requested-With header to "XMLHttpRequest"');
         });
 
     // --
@@ -407,7 +407,7 @@ CoreTests.prototype.run = function () {
     });
         test( '.tween()', function() {
             QUnit.stop();
-            expect(2);
+            expect(4);
             var el = x$('#square');
             el.tween({left:'100px'}, function() {
                 ok(true, 'Callback should be called following tween');
