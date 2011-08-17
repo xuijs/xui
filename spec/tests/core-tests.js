@@ -17,6 +17,31 @@ CoreTests.prototype.run = function () {
             x = null;
         }
     });
+        test( '.extend() called with 0 arguments should return empty object', function() {
+            expect(1)
+            deepEqual(x$.extend(), {}, 'Extended object did not match expected result.');
+        });
+        test( '.extend() called with 1 argument should extend the XUI prototype', function() {
+            expect(3)
+            var sugar = {
+                first: function() { return this[0]; },
+                last:  function() { return this[this.length - 1]; }
+            }
+            
+            var returnObj = x$.extend(sugar);
+            
+            ok(x$.fn.first, 'XUI prototype should be extended with the "first()" method.');
+            ok(x$.fn.last, 'XUI prototype should be extended with the "first()" method.');
+            equal(returnObj, undefined, 'extending XUI prototype, should not return anything');
+        });
+        test( '.extend() called with 2 arguments should extend the first object', function() {
+            expect(1)
+            var obj1 = { 'a':1, 'b':2, 'c':3 },
+                obj2 = { 'a':10, 'd':4};
+            
+            x$.extend(obj1, obj2);
+            deepEqual(obj1, { 'a':10, 'b':2, 'c':3, 'd':4 }, 'Extended object did not match expected result.');
+        });
         test( '.find()', function(){
             expect(1);
             x = x$('#find_tests_inner').find('.foo');
