@@ -167,8 +167,8 @@ xui.extend({
             var attrs = [];
             this.each(function(el) {
                 if (el.tagName == 'input' && attribute == 'value') attrs.push(el.value);
-                else if (el.getAttribute) {
-                    attrs.push(el.getAttribute(attribute) || '');
+                else if (el.getAttribute && el.getAttribute(attribute)) {
+                    attrs.push(el.getAttribute(attribute));
                 }
             });
             return attrs;
