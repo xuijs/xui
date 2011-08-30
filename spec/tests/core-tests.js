@@ -311,7 +311,7 @@ CoreTests.prototype.run = function () {
             textInput.attr('value','some new value');
             equals(textInput[0].value, 'some new value', 'using attr() to set value on text inputs should work.');
             
-            equals(0, x$('#dom_tests').attr('non-existing').length);
+            equals(0, x$('#dom_tests').attr('non-existing').length, 'attr() on non-existing attributes should return xui objects of length 0');
         });
 
     // --
