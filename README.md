@@ -92,6 +92,8 @@ Contributors
 - http://github.com/joemccann
 - http://github.com/mwbrooks
 - http://github.com/RichardBronosky
+- http://github.com/bryfox
+- http://github.com/i8ramin
 
 (If we missed you, please let us know!)
 
