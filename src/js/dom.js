@@ -180,7 +180,7 @@ xui.extend({
 });
 // private method for finding a dom element
 function getTag(el) {
-    return (el.firstChild === null) ? {'UL':'LI','DL':'DT','TR':'TD'}[el.tagName] || el.tagName : el.firstChild.tagName;
+    return (el.children[0] === undefined) ? {'UL':'LI','DL':'DT','TR':'TD'}[el.tagName] || el.tagName : el.children[0].tagName;
 }
 
 function wrapHelper(html, el) {
