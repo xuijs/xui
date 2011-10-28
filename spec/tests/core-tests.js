@@ -288,7 +288,7 @@ CoreTests.prototype.run = function () {
         });
         
         test('.attr()', function() {
-            expect(7);
+            expect(9);
             var checkbox = x$('#first-check');
             checkbox.attr('checked',true);
             equals(checkbox[0].checked, true, 'Should be able to check a checkbox-type input element');
@@ -312,6 +312,14 @@ CoreTests.prototype.run = function () {
             equals(textInput[0].value, 'some new value', 'using attr() to set value on text inputs should work.');
             
             equals(0, x$('#dom_tests').attr('non-existing').length, 'attr() on non-existing attributes should return xui objects of length 0');
+
+            var pwdInput = document.getElementById('p');
+            var initValue = pwdInput.value;
+            var retrievedValue = x$('#p').attr('value');
+            equals(initValue, retrievedValue, 'attr("value") should return initial value set in a password field');
+
+            pwdInput.value = 'newvalue';
+            equals(pwdInput.value, x$('#p').attr('value'), 'attr("value") should return changed values set in a password field');
         });
 
     // --

@@ -23,12 +23,12 @@ extra = false
 
 ARGV.each do |arg|
   case arg
-  when "--minify" then minify = true
-  when /^profile=(.*)$/ then profile = $1
-  when "--generate-docs" then docs = true
-  when /^cat=(.*)$/ then extra = $1
-  when "--help" then show_usage
-  else
+    when "--minify" then minify = true
+    when /^profile=(.*)$/ then profile = $1
+    when "--generate-docs" then docs = true
+    when /^cat=(.*)$/ then extra = $1
+    when "--help" then show_usage
+    else
       STDERR.puts("Invalid parameter '#{arg}'") unless arg == "--help"
       show_usage
   end

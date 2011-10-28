@@ -157,7 +157,7 @@ xui.extend({
     attr: function(attribute, val) {
         if (arguments.length == 2) {
             return this.each(function(el) {
-                if (el.tagName == 'input' && attribute == 'value') el.value = val;
+                if (el.tagName && el.tagName.toLowerCase() == 'input' && attribute == 'value') el.value = val;
                 else if (el.setAttribute) {
                   if (attribute == 'checked' && (val == '' || val == false || typeof val == "undefined")) el.removeAttribute(attribute);
                   else el.setAttribute(attribute, val);
@@ -166,7 +166,7 @@ xui.extend({
         } else {
             var attrs = [];
             this.each(function(el) {
-                if (el.tagName == 'input' && attribute == 'value') attrs.push(el.value);
+                if (el.tagName && el.tagName.toLowerCase() == 'input' && attribute == 'value') attrs.push(el.value);
                 else if (el.getAttribute && el.getAttribute(attribute)) {
                     attrs.push(el.getAttribute(attribute));
                 }
