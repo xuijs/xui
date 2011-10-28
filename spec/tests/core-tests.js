@@ -218,11 +218,16 @@ CoreTests.prototype.run = function () {
             equals(document.getElementById('html-test-outer'), null, 'Selected element should be gone if replaced with element with different ID');
         });
         test( 'Inserting html via "top"', function(){
-            expect(2);
+            expect(3);
             var numOriginalElements = topTest[0].childNodes.length;
             topTest.html('top', '<div>come out on top</div>');
             equals(topTest[0].childNodes[0].innerHTML, 'come out on top', 'Should create a new element at head of element\'s childNodes'); 
             equals(topTest[0].childNodes.length, numOriginalElements+1, 'Existing element inside selected element should remain after a "top" insertion');
+
+            var content = "<a id='closeCart' onclick='miniCart.hideCart()'>X</a>";
+            x$("#miniCartHeader").html('top', content);
+            var miniCart = document.getElementById('miniCartHeader');
+            equals(miniCart.innerHTML, content.replace(/'/g,'"'), 'inserting HTML via "top" should work with anchor tags containing onclick and id attributes');
         });
         test( 'Inserting html via "bottom"', function(){
             // Base case
