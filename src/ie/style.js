@@ -86,7 +86,7 @@ xui.extend({
       if (callback === undefined) {
         var styles = [];
         this.each(function(el) {
-          styles.push(getStyle(this[0], prop));
+          styles.push(getStyle(el, prop));
         });
         return styles;
       } else return this.each(function(el) {
