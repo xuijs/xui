@@ -223,7 +223,6 @@ xui.touch = (function () {
     xui.ready(function() {
       console.log('ready, set, go!');
     });
-
 */
 xui.ready = function(handler) {
   domReady(handler);
