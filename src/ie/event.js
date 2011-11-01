@@ -10,6 +10,7 @@
  * 
  */
 xui.events = {}; var cache = {};
+var stockEvents = "click load submit touchstart touchmove touchend touchcancel gesturestart gesturechange gestureend orientationchange".split(' ');
 xui.extend({
 	
 	
@@ -52,53 +53,49 @@ xui.extend({
 	 */
 	on: function(type, fn, details) {
       return this.each(function (el) {
-        var f = _createResponder(el, type, fn);
-        if (window.addEventListener) 
-          el.addEventListener(type, f, false);
-        else {
-          el.attachEvent('on' + type, f);
-        }
+        el.attachEvent('on' + type, _createResponder(el, type, fn));
       });
     },
 
     un: function(type, fn) {
-        return this.each(function (el) {
-            var id = _getEventID(el), responders = _getRespondersForEvent(id, type), i = responders.length;
+      return this.each(function (el) {
+          var id = _getEventID(el), responders = _getRespondersForEvent(id, type), i = responders.length;
 
-            while (i--) {
-              if (fn === undefined || fn.guid === responders[i].guid) {
-                if (window.removeEventListener)
-                  el.removeEventListener(type, responders[i], false);
-                else
-                  el.detachEvent('on'+type, responders[i]);
-                removex(cache[id][type], i, 1);
-              }
+          while (i--) {
+            if (fn === undefined || fn.guid === responders[i].guid) {
+              el.detachEvent('on'+type, responders[i]);
+              removex(cache[id][type], i, 1);
             }
-            if (cache[id][type].length === 0) delete cache[id][type];
-            for (var t in cache[id]) {
-                return;
-            }
-            delete cache[id];
-  	    });
+          }
+          if (cache[id][type].length === 0) delete cache[id][type];
+          for (var t in cache[id]) {
+              return;
+          }
+          delete cache[id];
+      });
   	},
 
   	fire: function (type, data) {
-        return this.each(function (el) {
-            if (el == document && !el.fireEvent)
-                el = document.documentElement;
+      return this.each(function (el) {
+        if (el == document && !el.fireEvent)
+            el = document.documentElement;
 
-            var event = document.createEventObject();
-            event.data = data || {};
-            event.eventName = type;
-            
-            el.fireEvent("on" + type, event);
-  	    });
+        var event = document.createEventObject();
+        event.data = data || {};
+        event.eventName = type;
+        if (stockEvents.indexOf(type) > -1)
+          el.fireEvent("on" + type, event);
+        else {
+          var responders = _getRespondersForEvent(_getEventID(el), type);
+          responder.call(el);
+        }
+      });
   	}
   
 // --
 });
 
-"click load submit touchstart touchmove touchend touchcancel gesturestart gesturechange gestureend orientationchange".split(' ').forEach(function (event) {
+stockEvents.forEach(function (event) {
   xui.fn[event] = function(action) { return function (fn) { return fn ? this.on(action, fn) : this.fire(action); }; }(event);
 });
 
