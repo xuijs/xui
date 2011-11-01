@@ -87,7 +87,9 @@ xui.extend({
           el.fireEvent("on" + type, event);
         else {
           var responders = _getRespondersForEvent(_getEventID(el), type);
-          responder.call(el);
+          responders.forEach(function(r) {
+            r.call(el);
+          });
         }
       });
   	}
