@@ -49,6 +49,7 @@ xui.extend({
 	 * 
 	 */
     setStyle: function(prop, val) {
+        prop = domstyle(prop);
         return this.each(function(el) {
             el.style[prop] = val;
         });
@@ -82,13 +83,15 @@ xui.extend({
 	 *
 	 */
     getStyle: function(prop, callback) {
-        return (callback === undefined) ?
-            
-            getStyle(this[0], prop) :
-            
-            this.each(function(el) {
-                callback(getStyle(el, prop));
-            });
+      if (callback === undefined) {
+        var styles = [];
+        this.each(function(el) {
+          styles.push(getStyle(this[0], prop));
+        });
+        return styles;
+      } else return this.each(function(el) {
+               callback(getStyle(el, prop));
+             });
     },
 
     /**
@@ -148,13 +151,16 @@ xui.extend({
 	 *
 	 */
     hasClass: function(className, callback) {
-        return (callback === undefined && this.length == 1) ?
-            hasClass(this[0], className) :
-            this.length && this.each(function(el) {
-                if (hasClass(el, className)) {
-                    callback(el);
-                }
-            });
+        var self = this;
+        return this.length && (function() {
+                var hasIt = true;
+                self.each(function(el) {
+                    if (hasClass(el, className)) {
+                        if (callback) callback(el);
+                    } else hasIt = false;
+                });
+                return hasIt;
+            })();
     },
 
     /**
@@ -193,7 +199,12 @@ xui.extend({
         }
         return this;
     },
-
+    toggleClass: function(className) {
+        return this.each(function(el) {
+            if (hasClass(el, className)) el.className = trim(el.className.replace(getClassRegEx(className), '$1'));
+            else el.className = trim(el.className + ' ' + className);
+        });
+    },
 
     /**
 	 *

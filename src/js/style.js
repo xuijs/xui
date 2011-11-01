@@ -87,7 +87,7 @@ xui.extend({
         	var styles = [];
             this.each(function(el) {styles.push(s(el, prop))});
  			return styles;
-        } else this.each(function(el) { callback(s(el, prop)); });
+        } else return this.each(function(el) { callback(s(el, prop)); });
     },
 
 /**
