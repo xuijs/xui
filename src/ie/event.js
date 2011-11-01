@@ -82,15 +82,14 @@ xui.extend({
 
   	fire: function (type, data) {
         return this.each(function (el) {
-            if (el == document && !el.dispatchEvent)
+            if (el == document && !el.fireEvent)
                 el = document.documentElement;
 
-            var event = document.createEvent('HTMLEvents');
-            event.initEvent(type, true, true);
+            var event = document.createEventObject();
             event.data = data || {};
             event.eventName = type;
             
-            el.dispatchEvent(event);
+            el.fireEvent("on" + type, event);
   	    });
   	}
   
@@ -100,15 +99,6 @@ xui.extend({
 "click load submit touchstart touchmove touchend touchcancel gesturestart gesturechange gestureend orientationchange".split(' ').forEach(function (event) {
   xui.fn[event] = function(action) { return function (fn) { return fn ? this.on(action, fn) : this.fire(action); }; }(event);
 });
-
-// this doesn't belong on the prototype, it belongs as a property on the xui object
-xui.touch = (function () {
-  try{
-    return !!(document.createEvent("TouchEvent").initTouchEvent)
-  } catch(e) {
-    return false;
-  };
-})();
 
 xui.ready = function(handler) {
   domReady(handler);
