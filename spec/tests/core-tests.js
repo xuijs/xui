@@ -582,7 +582,7 @@ CoreTests.prototype.run = function () {
           expect(1);
           var i = document.createElement('input');
           i.type = 'text';
-          i.onkeyup = function(e) { 
+          i.onkeyup = function(e) {
             ok(true, "keyboard event should be fired.");
             QUnit.start();
           }

@@ -11,6 +11,7 @@
  */
 xui.events = {}; var cache = {};
 var stockEvents = "click load submit touchstart touchmove touchend touchcancel gesturestart gesturechange gestureend orientationchange".split(' ');
+var ieEvents = "click load submit blur change focus keydown keypress keyup mousedown mouseenter mouseleave mousemove mouseout mouseover mouseup mousewheel resize scroll select unload".split(' ');
 xui.extend({
 	
 	
@@ -83,7 +84,7 @@ xui.extend({
         var event = document.createEventObject();
         event.data = data || {};
         event.eventName = type;
-        if (stockEvents.indexOf(type) > -1)
+        if (ieEvents.indexOf(type) > -1)
           el.fireEvent("on" + type, event);
         else {
           var responders = _getRespondersForEvent(_getEventID(el), type);
