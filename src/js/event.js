@@ -249,7 +249,7 @@ function _createResponder(element, eventName, handler) {
         if (handler.call(element, event) === false) {
             event.preventDefault();
             event.stopPropagation();
-        } 
+        }
     };
     
     responder.guid = handler.guid = handler.guid || ++_getEventID.id;

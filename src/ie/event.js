@@ -51,12 +51,14 @@ xui.extend({
 	 * 	
 	 */
 	on: function(type, fn, details) {
-        return this.each(function (el) {
-            if (window.addEventListener) 
-                el.addEventListener(type, _createResponder(el, type, fn), false);
-            else 
-                el.attachEvent('on' + type, fn);
-        });
+      return this.each(function (el) {
+        var f = _createResponder(el, type, fn);
+        if (window.addEventListener) 
+          el.addEventListener(type, f, false);
+        else {
+          el.attachEvent('on' + type, f);
+        }
+      });
     },
 
     un: function(type, fn) {
@@ -68,7 +70,7 @@ xui.extend({
                 if (window.removeEventListener)
                   el.removeEventListener(type, responders[i], false);
                 else
-                  el.detachEvent('on'+type, fn);
+                  el.detachEvent('on'+type, responders[i]);
                 removex(cache[id][type], i, 1);
               }
             }
