@@ -371,7 +371,7 @@ CoreTests.prototype.run = function () {
             x.xhr("helpers/example.html", {
                 async: false,
                 headers: {
-                    'foo': 'bar',
+                    'foo': 'bar'
                 }
             });
             equals(window.headers['foo'], 'bar', 'Should call setRequestHeader correctly');
