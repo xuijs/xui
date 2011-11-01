@@ -9,6 +9,7 @@
  * A good old fashioned event handling system.
  * 
  */
+xui.events = {}; var cache = {};
 xui.extend({
 	
 	
@@ -49,30 +50,32 @@ xui.extend({
 	 *  	});
 	 * 	
 	 */
-	
-	touch: eventSupported('ontouchstart'),
-	
-	
-	
-	on: function(type, fn) {
+	on: function(type, fn, details) {
         return this.each(function (el) {
             if (window.addEventListener) 
                 el.addEventListener(type, _createResponder(el, type, fn), false);
             else 
                 el.attachEvent('on' + type, fn);
-			
         });
     },
 
-    un: function(type) {
-        var that = this;
+    un: function(type, fn) {
         return this.each(function (el) {
             var id = _getEventID(el), responders = _getRespondersForEvent(id, type), i = responders.length;
 
             while (i--) {
-                el.removeEventListener(type, responders[i], false);
+              if (fn === undefined || fn.guid === responders[i].guid) {
+                if (window.removeEventListener)
+                  el.removeEventListener(type, responders[i], false);
+                else
+                  el.detachEvent('on'+type, fn);
+                removex(cache[id][type], i, 1);
+              }
             }
-
+            if (cache[id][type].length === 0) delete cache[id][type];
+            for (var t in cache[id]) {
+                return;
+            }
             delete cache[id];
   	    });
   	},
@@ -94,15 +97,26 @@ xui.extend({
 // --
 });
 
-function eventSupported(event) {
-    var element = document.createElement('i');
-    return event in element || element.setAttribute && element.setAttribute(event, "return;") || false;
-}
+"click load submit touchstart touchmove touchend touchcancel gesturestart gesturechange gestureend orientationchange".split(' ').forEach(function (event) {
+  xui.fn[event] = function(action) { return function (fn) { return fn ? this.on(action, fn) : this.fire(action); }; }(event);
+});
 
+// this doesn't belong on the prototype, it belongs as a property on the xui object
+xui.touch = (function () {
+  try{
+    return !!(document.createEvent("TouchEvent").initTouchEvent)
+  } catch(e) {
+    return false;
+  };
+})();
+
+xui.ready = function(handler) {
+  domReady(handler);
+}
 // lifted from Prototype's (big P) event model
 function _getEventID(element) {
-    if (element._xuiEventID) return element._xuiEventID[0];
-    return element._xuiEventID = [++_getEventID.id];
+    if (element._xuiEventID) return element._xuiEventID;
+    return element._xuiEventID = ++_getEventID.id;
 }
 
 _getEventID.id = 1;
@@ -119,8 +133,9 @@ function _createResponder(element, eventName, handler) {
         if (handler.call(element, event) === false) {
             event.preventDefault();
             event.stopPropagation();
-        } 
+        }
     };
+    responder.guid = handler.guid = handler.guid || ++_getEventID.id;
     responder.handler = handler;
     r.push(responder);
     return responder;
