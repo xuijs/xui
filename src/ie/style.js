@@ -118,10 +118,13 @@ xui.extend({
 	 *
 	 */
     addClass: function(className) {
+        var cs = className.split(' ');
         return this.each(function(el) {
-            if (hasClass(el, className) === false) {
-              el.className = trim(el.className + ' ' + className);
-            }
+            cs.forEach(function(clazz) {
+              if (hasClass(el, clazz) === false) {
+                el.className = trim(el.className + ' ' + clazz);
+              }
+            });
         });
     },
     /**
@@ -151,18 +154,20 @@ xui.extend({
 	 *
 	 */
     hasClass: function(className, callback) {
-        var self = this;
-        return this.length && (function() {
-                var hasIt = true;
-                self.each(function(el) {
-                    if (hasClass(el, className)) {
-                        if (callback) callback(el);
-                    } else hasIt = false;
+      var self = this,
+          cs = className.split(' ');
+      return this.length && (function() {
+              var hasIt = true;
+              self.each(function(el) {
+                cs.forEach(function(clazz) {
+                  if (hasClass(el, clazz)) {
+                      if (callback) callback(el);
+                  } else hasIt = false;
                 });
-                return hasIt;
-            })();
+              });
+              return hasIt;
+          })();
     },
-
     /**
 	 *
 	 * Removes the classname from all the elements in the collection. 
@@ -187,22 +192,24 @@ xui.extend({
 	 * 
 	 */
     removeClass: function(className) {
-        if (className === undefined) {
-            this.each(function(el) {
-                el.className = '';
+        if (className === undefined) this.each(function(el) { el.className = ''; });
+        else {
+          var cs = className.split(' ');
+          this.each(function(el) {
+            cs.forEach(function(clazz) {
+              el.className = trim(el.className.replace(getClassRegEx(clazz), '$1'));
             });
-        } else {
-            var re = getClassRegEx(className);
-            this.each(function(el) {
-                el.className = el.className.replace(re, '$1');
-            });
+          });
         }
         return this;
     },
     toggleClass: function(className) {
+        var cs = className.split(' ');
         return this.each(function(el) {
-            if (hasClass(el, className)) el.className = trim(el.className.replace(getClassRegEx(className), '$1'));
-            else el.className = trim(el.className + ' ' + className);
+            cs.forEach(function(clazz) {
+              if (hasClass(el, clazz)) el.className = trim(el.className.replace(getClassRegEx(clazz), '$1'));
+              else el.className = trim(el.className + ' ' + clazz);
+            });
         });
     },
 

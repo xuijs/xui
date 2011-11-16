@@ -105,22 +105,33 @@ CoreTests.prototype.run = function () {
             ok(e[0].style.backgroundColor == 'rgb(128, 0, 0)' || e[0].style.backgroundColor == '#800000', 'Should be able to change styles via backgroundColor');
         });
         test( '.addClass()', function(){
-            expect(3);
+            expect(6);
             var x = x$('#add-class-element');
             equals(x, x.addClass('foo'), 'Should be chainable');
             equals(x[0].className, "foo", 'Should properly add class to an element with no existing classes');
             x.addClass('bar');
             equals(x[0].className, "foo bar", 'Should properly add class to an element with an existing class');
+            x.addClass('bar');
+            equals(x[0].className, "foo bar", 'Should *not* add the class if the element already has a class');
+            x.addClass('poo crap');
+            equals(x[0].className, "foo bar poo crap", 'Should be able to add multiple classes in one call');
+            x.addClass('crap poo');
+            equals(x[0].className, "foo bar poo crap", 'In multi-class additions, if class already exists, it should ignore it');
         });
         test('.removeClass()', function() {
-            expect(4);
+            expect(7);
             var x = x$('#remove-class-element');
             equals(x, x.removeClass('bar'), 'Should be chainable');
             var classes = x[0].className.split(' ');
             ok(classes.indexOf('bar') == -1, 'Should remove a class from an element');
             ok(classes.indexOf('foo') > -1,  'Should keep surrounding classes intact');
             ok(classes.indexOf('baz') > -1,  'Should keep surrounding classes intact');
-            x.removeClass('foo');
+            x.addClass('bar');
+            x.removeClass('baz foo');
+            classes = x[0].className.split(' ');
+            ok(classes.indexOf('foo') == -1, 'Multi class removals should remove each class');
+            ok(classes.indexOf('baz') == -1, 'Multi class removals should remove each class');
+            ok(classes.indexOf('bar') > -1, 'Multi class removals should leave non-specified classes untouched');
         });
         test('.hasClass()', function() {
             var x = x$('#has-class-element');
@@ -145,6 +156,7 @@ CoreTests.prototype.run = function () {
                 if (numFound > 2) QUnit.start();
             });
             equals(numFound, x$('#style_tests').find('.foo').length, 'Should invoke callback function properly for every item with matching class');
+            ok(x$('#style_tests .multi').hasClass('multi has'), 'multiple class hasClass class should return true only if all elements have all specified classes');
         });
         test('.toggleClass()', function() {
             expect(4);
