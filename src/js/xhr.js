@@ -10,7 +10,7 @@ xui.extend({
 	xhr
 	---
 
-	The classic `XMLHttpRequest` sometimes also known as the Greek God: _Ajax_. Not to be confused with _AJAX_ the cleaning agent.
+	The classic `XMLHttpRequest` sometimes also known as the Greek hero: _Ajax_. Not to be confused with _AJAX_ the cleaning agent.
 
 	### detail ###
 
