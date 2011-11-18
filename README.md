@@ -94,6 +94,7 @@ Contributors
 - http://github.com/RichardBronosky
 - http://github.com/bryfox
 - http://github.com/i8ramin
+- http://github.com/edufelipe
 
 (If we missed you, please let us know!)
 
