@@ -54,7 +54,7 @@ CoreTests.prototype.run = function () {
             equals(x[x.length - 1].innerHTML, 'this is item three', 'Should have text as specified in markup');
         });
         test('Element(s) reference selector', function() {
-            expect(3);
+            expect(4);
             var el = document.getElementById("item_1"),
             x = x$(el);
             equals(x.length, 1, 'Should return array with one element');
@@ -62,6 +62,8 @@ CoreTests.prototype.run = function () {
             var formEls = document.getElementById('form_1').elements;
             x = x$(formEls);
             equals(x.length, 2, 'Should return proper number of elements when passing in a HTMLCollection object')
+            x = x$(window);
+            equals(x[0], window, 'Should be able to reference the `window` object through xui');
         });
         test('Tag name selector', function() {
             expect(2);
