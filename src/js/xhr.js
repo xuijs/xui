@@ -124,7 +124,7 @@ xui.extend({
         }
 
         req.handleResp = (o.callback != null) ? function(){ o.callback(that); } : function() { that.html(location, req.responseText); };
-        req.handleError = (o.error && typeof o.error == 'function') ? function(){ o.error(that ); } : function () {};
+        req.handleError = (o.error && typeof o.error == 'function') ? function(){ o.error(that); } : function () {};
         function hdl(){
             if(req.readyState==4) {
                 delete(that.xmlHttpRequest);
