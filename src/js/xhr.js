@@ -68,8 +68,9 @@ xui.extend({
 		// define a callback, enable async execution and add a request header
 		x$('#left-panel').xhr('/panel', {
 		    async: true,
-		    callback: function() {
+		    callback: function(that) {
 		        alert("The response is " + this.responseText);
+		        alert("The Xui object:" + that);
 		    },
         headers:{
             'Mobile':'true'
@@ -77,8 +78,9 @@ xui.extend({
 		});
 
 		// define a callback with the shorthand syntax
-		x$('#left-panel').xhr('/panel', function() {
+		x$('#left-panel').xhr('/panel', function(that) {
 		    alert("The response is " + this.responseText);
+		    alert("The Xui object:" + that);
 		});
 */
     xhr:function(location, url, options) {
@@ -122,7 +124,7 @@ xui.extend({
         }
 
         req.handleResp = (o.callback != null) ? function(){ o.callback(that); } : function() { that.html(location, req.responseText); };
-        req.handleError = (o.error && typeof o.error == 'function') ? o.error : function () {};
+        req.handleError = (o.error && typeof o.error == 'function') ? function(){ o.error(that ); } : function () {};
         function hdl(){
             if(req.readyState==4) {
                 delete(that.xmlHttpRequest);
