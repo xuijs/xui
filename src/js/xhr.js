@@ -121,7 +121,7 @@ xui.extend({
             }
         }
 
-        req.handleResp = (o.callback != null) ? o.callback : function() { that.html(location, req.responseText); };
+        req.handleResp = (o.callback != null) ? function(){ o.callback(that); } : function() { that.html(location, req.responseText); };
         req.handleError = (o.error && typeof o.error == 'function') ? o.error : function () {};
         function hdl(){
             if(req.readyState==4) {
