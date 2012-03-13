@@ -46,7 +46,7 @@ if (! [].forEach) {
     };
 }
 /* 
- * Patch indexOf for internet explorer: http://soledadpenades.com/2007/05/17/arrayindexof-in-internet-explorer/ */
+ * Patch indexOf for internet explorer: http://soledadpenades.com/2007/05/17/arrayindexof-in-internet-explorer/ 
  */
 if(!Array.indexOf){
   Array.prototype.indexOf = function(obj) {
