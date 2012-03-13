@@ -123,8 +123,8 @@ function _createResponder(element, eventName, handler) {
 
     var responder = function(event) {
         if (handler.call(element, event) === false) {
-            event.preventDefault();
-            event.stopPropagation();
+            event.stopPropagation ? event.stopPropagation() : (event.cancelBubble=true);
+            event.preventDefault ? event.preventDefault() : (event.returnValue = false);
         }
     };
     responder.guid = handler.guid = handler.guid || ++_getEventID.id;
