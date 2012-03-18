@@ -171,7 +171,7 @@ xui.extend({
                     attrs.push(el.getAttribute(attribute));
                 }
             });
-            return attrs;
+            return attrs.length === 1 ? attrs.join( '' ) : attrs;
         }
     }
 });
