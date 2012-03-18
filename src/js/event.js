@@ -52,21 +52,24 @@ xui.extend({
 */
     on: function(type, fn, details) {
         return this.each(function (el) {
-            if (xui.events[type]) {
-                var id = _getEventID(el), 
-                    responders = _getRespondersForEvent(id, type);
-                
-                details = details || {};
-                details.handler = function (event, data) {
-                    xui.fn.fire.call(xui(this), type, data);
-                };
-                
-                // trigger the initialiser - only happens the first time around
-                if (!responders.length) {
-                    xui.events[type].call(el, details);
-                }
-            } 
-            el.addEventListener(type, _createResponder(el, type, fn), false);
+            type.split( ' ' ).forEach( function(type)
+            {
+                if (xui.events[type]) {
+                    var id = _getEventID(el), 
+                        responders = _getRespondersForEvent(id, type);
+                        
+                    details = details || {};
+                    details.handler = function (event, data) {
+                        xui.fn.fire.call(xui(this), type, data);
+                    };
+                    
+                    // trigger the initialiser - only happens the first time around
+                    if (!responders.length) {
+                        xui.events[type].call(el, details);
+                    }
+                } 
+                el.addEventListener(type, _createResponder(el, type, fn), false);
+            });
         });
     },
 
@@ -116,20 +119,23 @@ xui.extend({
 */
     un: function(type, fn) {
         return this.each(function (el) {
-            var id = _getEventID(el), responders = _getRespondersForEvent(id, type), i = responders.length;
-
-            while (i--) {
-                if (fn === undefined || fn.guid === responders[i].guid) {
-                    el.removeEventListener(type, responders[i], false);
-                    removex(cache[id][type], i, 1);
+            type.split( ' ' ).forEach( function(type)
+            {
+                var id = _getEventID(el), responders = _getRespondersForEvent(id, type), i = responders.length;
+                
+                while (i--) {
+                    if (fn === undefined || fn.guid === responders[i].guid) {
+                        el.removeEventListener(type, responders[i], false);
+                        removex(cache[id][type], i, 1);
+                    }
                 }
-            }
-
-            if (cache[id][type].length === 0) delete cache[id][type];
-            for (var t in cache[id]) {
-                return;
-            }
-            delete cache[id];
+                
+                if (cache[id][type].length === 0) delete cache[id][type];
+                for (var t in cache[id]) {
+                    return;
+                }
+                delete cache[id];
+            });
         });
     },
 
