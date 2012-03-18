@@ -61,7 +61,7 @@ xui.extend({
             this.each(function(el) {
                 i.push(el.innerHTML);
             });
-            return i;
+            return i.length === 1 ? i.join( '' ) : i;
         }
         if (arguments.length == 1 && arguments[0] != 'remove') {
             html = location;
