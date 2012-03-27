@@ -45,6 +45,19 @@ if (! [].forEach) {
         }
     };
 }
+/* 
+ * Patch indexOf for internet explorer: http://soledadpenades.com/2007/05/17/arrayindexof-in-internet-explorer/ 
+ */
+if(!Array.indexOf){
+  Array.prototype.indexOf = function(obj) {
+    for(var i = 0; i < this.length; i++) {
+      if(this[i] == obj){
+          return i;
+      }
+    }
+    return -1;
+  }
+}
 /*
  * Array Remove - By John Resig (MIT Licensed) 
  */
@@ -56,7 +69,7 @@ function removex(array, from, to) {
 
 // converts all CSS style names to DOM style names, i.e. margin-left to marginLeft
 function domstyle(name) {
-  return name.replace(/\-[a-z]/g,function(m) { return m[1].toUpperCase(); });
+  return name.replace(/\-[a-z]/g,function(m) { return m.charAt(1).toUpperCase(); });
 }
 
 // converts all DOM style names to CSS style names, i.e. marginLeft to margin-left
