@@ -1,7 +1,7 @@
 xui
 ===
 
-A lightweight, dead simple, micro-tiny, super modular JavaScript framework for building mobile web applications. Its true: the minified code is _super tiny_. You can find more information, downloads and documentation on the [http://xuijs.com](http://xuijs.com).
+A lightweight, dead simple, micro-tiny, super modular JavaScript framework for building mobile web applications. It's true: the minified code is _super tiny_. You can find more information, downloads and documentation on the [http://xuijs.com](http://xuijs.com).
 
 If you want to build your own custom xui or help contribute: please read on! The best documentation is in the source and the tests.
 
