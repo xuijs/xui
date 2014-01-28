@@ -4,6 +4,7 @@
         "src/header",
         "src/base",
         "src/js/fx",
+        "src/js/os",
         "src/js/xhr",
         "src/IE/dom",
         "src/IE/event",
