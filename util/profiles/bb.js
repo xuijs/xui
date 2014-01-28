@@ -6,6 +6,7 @@
         "src/js/dom",
         "src/js/event",
         "src/js/fx",
+        "src/js/os",
         "src/js/style",
         "src/js/xhr",
         "packages/emile/emile",
