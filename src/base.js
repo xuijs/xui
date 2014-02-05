@@ -83,15 +83,23 @@ xui.fn = xui.prototype = {
 	extend
 	------
 
-	Extends XUI's prototype with the members of another object.
+        Extends and Object with properties of another Object. If only one
+        argument is given, then XUI's prototype is extended.
 
 	### syntax ###
 
-		xui.extend( object );
+		xui.extend( object ); // extends XUI
+		xui.extend( targetObject, extendingObj ); // extends targetObj
 
-	### arguments ###
+	### arguments (variable) ###
 
-	- object `Object` contains the members that will be added to XUI's prototype.
+	- object `Object` contains the members that will be added to XUI's prototype OR
+          will extend another object if arguments.length > 1
+
+        ### returns ###
+
+        - if extending XUI's prototype, then nothing is returned. If
+          extending another object, the first object (target) is returned.
  
 	### example ###
 
@@ -110,10 +118,42 @@ xui.fn = xui.prototype = {
 
 		var f = x$('.button').first();
 		var l = x$('.notice').last();
+
+
+	Give:
+		var object1 = { a : 1, b: 2};
+		var object2 = { a : 10, c : 3 };
+	
+	We can extend object1 with properties of object2:
+	
+		xui.extend(object1, object2);
+	
+	Now object1 will look like this:
+	
+		{ a : 10, b : 2, c : 3 }
 */
-    extend: function(o) {
-        for (var i in o) {
-            xui.fn[i] = o[i];
+    extend: function() {
+        var target = arguments[0] || {},
+            source = arguments[1] || {};
+
+        // if passing in only one argument, then we
+        // extend XUI's prototype
+        if (arguments.length === 1) {
+            source = target;
+            target = xui.fn;
+        }
+
+        for (var property in source) {
+            if (source[property] && source[property].constructor && source[property].constructor === Object) {
+                target[property] = target[property] || {};
+                arguments.callee(target[property], source[property]);
+            } else {
+                target[property] = source[property];
+            }
+        }
+
+        if (target !== xui.fn) {
+            return target;
         }
     },
 
