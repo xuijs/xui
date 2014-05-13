@@ -75,7 +75,13 @@ xui.extend({
             'Mobile':'true'
         }
 		});
-
+	// Success callback
+		x$('#left-panel').xhr('/panel', {
+			success: function() {
+				alert('On Success callback');
+			}
+		});
+		
 		// define a callback with the shorthand syntax
 		x$('#left-panel').xhr('/panel', function() {
 		    alert("The response is " + this.responseText);
@@ -123,10 +129,12 @@ xui.extend({
 
         req.handleResp = (o.callback != null) ? o.callback : function() { that.html(location, req.responseText); };
         req.handleError = (o.error && typeof o.error == 'function') ? o.error : function () {};
+        req.handleSuccess = (o.success != null) ? o.success : function() {};
         function hdl(){
             if(req.readyState==4) {
                 delete(that.xmlHttpRequest);
                 if((/^[20]/).test(req.status)) req.handleResp();
+                if((/^[20]/).test(req.status)) req.handleSuccess();
                 if((/^[45]/).test(req.status)) req.handleError();
             }
         }
