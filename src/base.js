@@ -79,41 +79,83 @@ function cssstyle(name) {
 
 xui.fn = xui.prototype = {
 
-/**
-	extend
-	------
+    /**
+    	extend
+    	------
 
-	Extends XUI's prototype with the members of another object.
+		Extends and Object with properties of another Object. If only one
+		argument is given, then XUI's prototype is extended.
 
-	### syntax ###
+    	### syntax ###
 
-		xui.extend( object );
+    		xui.extend( object ); // extends XUI
+    		xui.extend( targetObject, extendingObj ); // extends targetObj
 
-	### arguments ###
+    	### arguments (variable) ###
 
-	- object `Object` contains the members that will be added to XUI's prototype.
- 
-	### example ###
+    	- object `Object` contains the members that will be added to XUI's prototype OR
+          will extend another object if arguments.length > 1
 
-	Given:
+		### returns ###
 
-		var sugar = {
-		    first: function() { return this[0]; },
-		    last:  function() { return this[this.length - 1]; }
-		}
+		- if extending XUI's prototype, then nothing is returned. If
+		  extending another object, the first object (target) is returned.
 
-	We can extend xui's prototype with members of `sugar` by using `extend`:
+    	### example ###
 
-		xui.extend(sugar);
+    	Given:
 
-	Now we can use `first` and `last` in all instances of xui:
+    		var sugar = {
+    		    first: function() { return this[0]; },
+    		    last:  function() { return this[this.length - 1]; }
+    		}
 
-		var f = x$('.button').first();
-		var l = x$('.notice').last();
-*/
-    extend: function(o) {
-        for (var i in o) {
-            xui.fn[i] = o[i];
+    	We can extend xui's prototype with members of `sugar` by using `extend`:
+
+    		xui.extend(sugar);
+
+    	Now we can use `first` and `last` in all instances of xui:
+
+    		var f = x$('.button').first();
+    		var l = x$('.notice').last();
+
+
+		Give:
+			var object1 = { a : 1, b: 2};
+			var object2 = { a : 10, c : 3 };
+
+		We can extend object1 with properties of object2:
+
+			xui.extend(object1, object2);
+
+		Now object1 will look like this:
+
+			{ a : 10, b : 2, c : 3 }
+    */
+    extend: function() {
+        var extendingXUI = arguments.length === 1,
+            target = arguments[0] || {},
+            source = arguments[1] || {};
+
+        if (arguments.length) {
+            if (extendingXUI) {
+                source = target;
+                target = xui.fn;
+            }
+
+            for (var property in source) {
+                // deep copy by recursion
+                if (!extendingXUI && source[property] && source[property].constructor && source[property].constructor === Object) {
+                    target[property] = target[property] || {};
+                    arguments.callee(target[property], source[property]);
+                } else {
+                    target[property] = source[property];
+                }
+            }
+        }
+
+        if (!extendingXUI) {
+            return target;
         }
     },
 
